@@ -1,0 +1,2070 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHAIYA V2RAY PRO MAX</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Sarabun:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ac: #22c55e; --ac-glow: rgba(34,197,94,0.25); --ac-dim: rgba(34,197,94,0.08);
+    --ac-border: rgba(34,197,94,0.25); --ng: #22c55e; --ng-glow: rgba(34,197,94,0.2);
+    --bg: #f0f2f5; --card: #ffffff; --txt: #1e293b; --muted: #64748b;
+    --border: #e2e8f0; --shadow: 0 2px 12px rgba(0,0,0,0.07);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);font-family:'Sarabun',sans-serif;color:var(--txt);min-height:100vh;overflow-x:hidden;}
+  .wrap{max-width:480px;margin:0 auto;padding-bottom:50px;position:relative;z-index:1;}
+  .hdr{background:radial-gradient(ellipse 80% 60% at 20% 20%,rgba(124,58,237,0.25) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 80% 80%,rgba(37,99,235,0.2) 0%,transparent 60%),linear-gradient(160deg,#03050f 0%,#080d1f 50%,#050810 100%);padding:20px 20px 18px;text-align:center;position:relative;overflow:hidden;}
+  .hdr::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(192,132,252,0.6),transparent);}
+  .hdr-sub{font-family:'Orbitron',monospace;font-size:9px;letter-spacing:4px;color:rgba(192,132,252,0.7);margin-bottom:6px;}
+  .hdr-title{font-family:'Orbitron',monospace;font-size:26px;font-weight:900;color:#fff;letter-spacing:2px;}
+  .hdr-title span{color:#c084fc;}
+  .hdr-desc{margin-top:6px;font-size:11px;color:rgba(255,255,255,0.45);letter-spacing:2px;}
+  .logout{position:absolute;top:16px;right:14px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:5px 12px;font-size:11px;color:rgba(255,255,255,0.6);cursor:pointer;font-family:'Sarabun',sans-serif;}
+
+
+
+
+  /* NAV pill style */
+  .nav-wrap{background:linear-gradient(180deg,#080d1f 0%,#0c1428 100%);padding:10px 10px 0;position:sticky;top:0;z-index:10;border-bottom:1px solid rgba(255,255,255,0.06);box-shadow:0 4px 20px rgba(0,0,0,0.3);}
+  .nav{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding-bottom:10px;}
+  .nav::-webkit-scrollbar{display:none;}
+  .nav-item{flex-shrink:0;padding:8px 14px;font-size:11px;font-weight:700;color:rgba(255,255,255,0.4);text-align:center;cursor:pointer;white-space:nowrap;border-radius:999px;border:1.5px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.04);transition:all 0.22s cubic-bezier(.34,1.56,.64,1);letter-spacing:0.3px;font-family:'Sarabun',sans-serif;}
+  .nav-item:hover:not(.active){color:rgba(255,255,255,0.7);background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.18);transform:translateY(-1px);}
+  .nav-item.active{color:#fff;background:linear-gradient(135deg,#22c55e,#16a34a);border-color:transparent;box-shadow:0 4px 16px rgba(34,197,94,0.4),0 1px 0 rgba(255,255,255,0.2) inset;transform:translateY(-2px);}
+  .nav-item.nav-speed.active{background:linear-gradient(135deg,#06b6d4,#0891b2);box-shadow:0 4px 16px rgba(6,182,212,0.4),0 1px 0 rgba(255,255,255,0.2) inset;}
+  .nav-item.nav-speed:hover:not(.active){color:#06b6d4;border-color:rgba(6,182,212,0.3);}
+  .sec{padding:14px;display:none;animation:fi .3s ease;}
+  .sec.active{display:block;}
+  @keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:10px;position:relative;overflow:hidden;box-shadow:var(--shadow);}
+  .sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+  .sec-title{font-family:'Orbitron',monospace;font-size:10px;letter-spacing:3px;color:var(--muted);}
+  .btn-r{background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:11px;color:var(--muted);cursor:pointer;font-family:'Sarabun',sans-serif;transition:all .2s;}
+  .btn-r:hover{border-color:var(--ac);color:var(--ac);}
+  .sgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+  .sc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;position:relative;overflow:hidden;box-shadow:var(--shadow);}
+  .slbl{font-family:'Orbitron',monospace;font-size:8px;letter-spacing:2px;color:var(--muted);margin-bottom:8px;}
+  .sval{font-family:'Orbitron',monospace;font-size:24px;font-weight:700;color:var(--txt);line-height:1;}
+  .sval span{font-size:12px;color:var(--muted);font-weight:400;}
+  .ssub{font-size:10px;color:var(--muted);margin-top:4px;}
+  .dnut{position:relative;width:52px;height:52px;margin:4px auto 4px;}
+  .dnut svg{transform:rotate(-90deg);}
+  .dbg{fill:none;stroke:rgba(0,0,0,0.06);stroke-width:4;}
+  .dv{fill:none;stroke-width:4;stroke-linecap:round;transition:stroke-dashoffset 1s ease;}
+  .dc{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:12px;font-weight:700;color:var(--txt);}
+  .pb{height:4px;background:rgba(0,0,0,0.06);border-radius:2px;margin-top:8px;overflow:hidden;}
+  .pf{height:100%;border-radius:2px;transition:width 1s ease;}
+  .pf.pu{background:linear-gradient(90deg,var(--ac),#16a34a);}
+  .pf.pg{background:linear-gradient(90deg,var(--ng),#16a34a);}
+  .pf.po{background:linear-gradient(90deg,#fb923c,#f97316);}
+  .pf.pr{background:linear-gradient(90deg,#ef4444,#dc2626);}
+  .ubdg{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px;}
+  .bdg{background:#f1f5f9;border:1px solid var(--border);border-radius:6px;padding:3px 8px;font-size:10px;color:var(--muted);font-family:'Orbitron',monospace;}
+  .net-row{display:flex;justify-content:space-between;gap:12px;margin-top:10px;}
+  .ni{flex:1;}
+  .nd{font-size:11px;color:var(--ac);margin-bottom:3px;}
+  .ns{font-family:'Orbitron',monospace;font-size:20px;font-weight:700;color:var(--txt);}
+  .ns span{font-size:11px;color:var(--muted);font-weight:400;}
+  .nt{font-size:10px;color:var(--muted);margin-top:2px;}
+  .divider{width:1px;background:var(--border);margin:4px 0;}
+  .opill{background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);border-radius:20px;padding:5px 14px;font-size:12px;color:var(--ng);display:inline-flex;align-items:center;gap:5px;white-space:nowrap;}
+  .opill.off{background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.3);color:#ef4444;}
+  .dot{width:5px;height:5px;border-radius:50%;background:var(--ng);box-shadow:0 0 3px var(--ng);animation:pls 4s ease-in-out infinite;}
+  .dot.red{background:#ef4444;box-shadow:0 0 4px #ef4444;}
+  @keyframes pls{0%,100%{opacity:.9;box-shadow:0 0 2px var(--ng)}50%{opacity:.6;box-shadow:0 0 4px var(--ng)}}
+  .xui-row{display:flex;align-items:center;gap:12px;margin-top:10px;}
+  .xui-info{font-size:12px;color:var(--muted);line-height:1.7;}
+  .xui-info b{color:var(--txt);}
+  .svc-list{display:flex;flex-direction:column;gap:8px;margin-top:10px;}
+  .svc{background:rgba(34,197,94,0.05);border:1px solid rgba(34,197,94,0.2);border-radius:10px;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;}
+  .svc.down{background:rgba(239,68,68,0.05);border-color:rgba(239,68,68,0.2);}
+  .svc-l{display:flex;align-items:center;gap:10px;}
+  .dg{width:6px;height:6px;border-radius:50%;background:var(--ng);box-shadow:0 0 3px var(--ng);flex-shrink:0;}
+  .dg.red{background:#ef4444;box-shadow:0 0 4px #ef4444;}
+  .svc-n{font-size:13px;font-weight:600;color:var(--txt);}
+  .svc-p{font-family:'Orbitron',monospace;font-size:10px;color:var(--muted);}
+  .rbdg{background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);border-radius:6px;padding:3px 10px;font-size:10px;color:var(--ng);font-family:'Orbitron',monospace;letter-spacing:1px;}
+  .rbdg.down{background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.3);color:#ef4444;}
+  .lu{text-align:center;font-size:10px;color:var(--muted);margin-top:14px;font-family:'Orbitron',monospace;letter-spacing:1px;}
+  .ftitle{font-family:'Orbitron',monospace;font-size:11px;letter-spacing:2px;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+  .info-box{background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:11px;color:var(--muted);margin-bottom:14px;}
+  .ptgl{display:flex;gap:8px;margin-bottom:14px;}
+  .pbtn{flex:1;padding:9px;border-radius:8px;font-size:12px;cursor:pointer;border:1px solid var(--border);background:#f8fafc;color:var(--muted);font-family:'Sarabun',sans-serif;transition:all .2s;}
+  .pbtn.active{background:var(--ac-dim);border-color:var(--ac);color:var(--ac);}
+  .fg{margin-bottom:12px;}
+  .flbl{font-family:'Orbitron',monospace;font-size:8px;letter-spacing:2px;color:var(--muted);opacity:.8;margin-bottom:5px;}
+  .fi{width:100%;background:#f8fafc;border:1px solid var(--border);border-radius:9px;padding:10px 14px;font-size:13px;color:var(--txt);font-family:'Sarabun',sans-serif;outline:none;transition:border-color .2s;}
+  .fi:focus{border-color:var(--ac);box-shadow:0 0 0 3px var(--ac-dim);}
+  .tgl{display:flex;gap:8px;}
+  .tbtn{flex:1;padding:9px;border-radius:8px;font-size:12px;cursor:pointer;border:1px solid var(--border);background:#f8fafc;color:var(--muted);font-family:'Sarabun',sans-serif;transition:all .2s;}
+  .tbtn.active{background:var(--ac-dim);border-color:var(--ac);color:var(--ac);}
+  .cbtn{width:100%;padding:14px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;border:none;background:linear-gradient(135deg,#16a34a,#22c55e,#4ade80);color:#fff;font-family:'Sarabun',sans-serif;letter-spacing:.5px;box-shadow:0 4px 15px rgba(34,197,94,.3);transition:all .2s;}
+  .cbtn:hover{box-shadow:0 6px 20px rgba(34,197,94,.45);transform:translateY(-1px);}
+  .cbtn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+  .sbox{width:100%;background:#f8fafc;border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--txt);font-family:'Sarabun',sans-serif;outline:none;margin-bottom:12px;transition:border-color .2s;}
+  .sbox:focus{border-color:var(--ac);}
+  .uitem{background:#fff;border:1px solid var(--border);border-radius:10px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;cursor:pointer;transition:all .2s;box-shadow:0 1px 4px rgba(0,0,0,0.04);}
+  .uitem:hover{border-color:var(--ac);background:var(--ac-dim);}
+  .uav{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:14px;font-weight:700;margin-right:12px;flex-shrink:0;}
+  .av-g{background:rgba(34,197,94,0.15);color:var(--ng);border:1px solid rgba(34,197,94,.2);}
+  .av-r{background:rgba(248,113,113,0.15);color:#f87171;border:1px solid rgba(248,113,113,.2);}
+  .av-x{background:rgba(239,68,68,0.12);color:#ef4444;border:1px solid rgba(239,68,68,.2);}
+  .un{font-size:13px;font-weight:600;color:var(--txt);}
+  .um{font-size:11px;color:var(--muted);margin-top:2px;}
+  .abdg{border-radius:6px;padding:3px 10px;font-size:10px;font-family:'Orbitron',monospace;}
+  .abdg.ok{background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,.3);color:var(--ng);}
+  .abdg.exp{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,.3);color:#ef4444;}
+  .abdg.soon{background:rgba(251,146,60,0.1);border:1px solid rgba(251,146,60,.3);color:#f97316;}
+  .mover{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);z-index:100;display:none;align-items:flex-end;justify-content:center;}
+  .mover.open{display:flex;}
+  .modal{background:#fff;border:1px solid var(--border);border-radius:20px 20px 0 0;width:100%;max-width:480px;padding:20px;max-height:85vh;overflow-y:auto;animation:su .3s ease;box-shadow:0 -4px 30px rgba(0,0,0,0.12);}
+  @keyframes su{from{transform:translateY(100%)}to{transform:translateY(0)}}
+  .mhdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+  .mtitle{font-family:'Orbitron',monospace;font-size:14px;color:var(--txt);}
+  .mclose{width:32px;height:32px;border-radius:50%;background:#f1f5f9;border:1px solid var(--border);color:var(--muted);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;}
+  .dgrid{background:#f8fafc;border-radius:10px;padding:14px;margin-bottom:14px;border:1px solid var(--border);}
+  .dr{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);}
+  .dr:last-child{border-bottom:none;}
+  .dk{font-size:12px;color:var(--muted);}
+  .dv{font-size:12px;color:var(--txt);font-weight:600;}
+  .dv.green{color:var(--ng);}
+  .dv.red{color:#ef4444;}
+  .dv.mono{color:var(--ac);font-size:9px;font-family:'Orbitron',monospace;word-break:break-all;}
+  .agrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .m-sub{display:none;margin-top:14px;background:#f8fafc;border:1px solid var(--border);border-radius:12px;padding:14px;}
+  .m-sub.open{display:block;animation:fi .2s ease;}
+  .msub-lbl{font-size:12px;font-weight:600;color:var(--txt);margin-bottom:10px;}
+  .abtn{background:#f8fafc;border:1px solid var(--border);border-radius:10px;padding:14px 10px;text-align:center;cursor:pointer;transition:all .2s;}
+  .abtn:hover{background:var(--ac-dim);border-color:var(--ac);}
+  .abtn .ai{font-size:22px;margin-bottom:6px;}
+  .abtn .an{font-size:12px;font-weight:600;color:var(--txt);}
+  .abtn .ad{font-size:10px;color:var(--muted);margin-top:2px;}
+  .abtn.danger:hover{background:rgba(248,113,113,.1);border-color:#f87171;}
+  .oe{text-align:center;padding:40px 20px;}
+  .oe .ei{font-size:48px;margin-bottom:12px;}
+  .oe p{color:var(--muted);font-size:13px;}
+  .ocr{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+  .ut{font-size:10px;color:var(--muted);font-family:'Orbitron',monospace;}
+  /* result box */
+  .res-box{position:relative;background:#f0fdf4;border:1px solid #86efac;border-radius:10px;padding:14px;margin-top:14px;display:none;}
+  .res-box.show{display:block;}
+  .res-close{position:absolute;top:-11px;right:-11px;width:22px;height:22px;border-radius:50%;background:#ef4444;border:2px solid #fff;color:#fff;cursor:pointer;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 1px 4px rgba(239,68,68,0.4);z-index:2;}
+  .res-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #dcfce7;font-size:13px;}
+  .res-row:last-child{border-bottom:none;}
+  .res-k{color:var(--muted);font-size:11px;}
+  .res-v{color:var(--txt);font-weight:600;word-break:break-all;text-align:right;max-width:65%;}
+  .res-link{background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:10px;font-family:'Orbitron',monospace;word-break:break-all;margin-top:8px;color:var(--muted);}
+  .copy-btn{width:100%;margin-top:8px;padding:8px;border-radius:8px;border:1px solid var(--ac-border);background:var(--ac-dim);color:var(--ac);font-size:12px;cursor:pointer;font-family:'Sarabun',sans-serif;}
+  /* alert */
+  .alert{display:none;padding:10px 14px;border-radius:8px;font-size:12px;margin-top:10px;}
+  .alert.ok{background:#f0fdf4;border:1px solid #86efac;color:#15803d;}
+  .alert.err{background:#fef2f2;border:1px solid #fca5a5;color:#dc2626;}
+  /* spinner */
+  .spin{display:inline-block;width:12px;height:12px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;vertical-align:middle;margin-right:4px;}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  .loading{text-align:center;padding:30px;color:var(--muted);font-size:13px;}
+
+
+  /* ── DARK FORM (SSH) ── */
+  .ssh-dark-form{background:#0d1117;border-radius:16px;padding:18px 16px;margin-bottom:0;}
+  .ssh-dark-form .fg .flbl{color:rgba(180,220,255,.5);font-size:9px;}
+  .ssh-dark-form .fi{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#e8f4ff;border-radius:10px;}
+  .ssh-dark-form .fi:focus{border-color:rgba(0,200,255,.5);box-shadow:0 0 0 3px rgba(0,200,255,.08);}
+  .ssh-dark-form .fi::placeholder{color:rgba(180,220,255,.25);}
+  .dark-lbl{font-size:10px;color:rgba(0,200,255,.7);font-family:'Orbitron',monospace;letter-spacing:2px;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+  /* Port picker */
+  .port-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+  .port-btn{background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.1);border-radius:12px;padding:14px 8px;text-align:center;cursor:pointer;transition:all .2s;}
+  .port-btn .pb-icon{font-size:1.4rem;margin-bottom:4px;}
+  .port-btn .pb-name{font-family:'Orbitron',monospace;font-size:.75rem;font-weight:700;margin-bottom:2px;}
+  .port-btn .pb-sub{font-size:10px;color:rgba(255,255,255,.35);}
+  .port-btn.active-p80{border-color:#00ccff;background:rgba(0,200,255,.08);box-shadow:0 0 12px rgba(0,200,255,.15);}
+  .port-btn.active-p80 .pb-name{color:#00ccff;}
+  .port-btn.active-p443{border-color:#fbbf24;background:rgba(251,191,36,.08);box-shadow:0 0 12px rgba(251,191,36,.12);}
+  .port-btn.active-p443 .pb-name{color:#fbbf24;}
+  /* Operator picker */
+  .pick-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+  .pick-opt{background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);border-radius:12px;padding:12px 8px;text-align:center;cursor:pointer;transition:all .2s;}
+  .pick-opt .pi{font-size:1.5rem;margin-bottom:4px;}
+  .pick-opt .pn{font-family:'Orbitron',monospace;font-size:.7rem;font-weight:700;margin-bottom:2px;}
+  .pick-opt .ps{font-size:9px;color:rgba(255,255,255,.3);}
+   /*  ชุดสร้างเครือข่ายเพิ่มเติม */
+  .pick-opt.a-dtac {
+  border-color: #ff6600;              /* เปลี่ยนสีเส้นขอบเป็นสีส้มเด่น */
+  background: rgba(255, 102, 0, .1);  /* เปลี่ยนพื้นหลังเป็นสีส้มจางๆ (ความโปร่งแสง 10%) */
+  box-shadow: 0 0 10px rgba(255,102,0,.15); /* ใส่เอฟเฟกต์เรืองแสงออร่าสีส้มฟุ้งๆ รอบกล่อง */
+  }
+  .pick-opt.a-dtac .pn {
+  color: #ff8833;  /* เปลี่ยนสีตัวอักษร/ชื่อปุ่มด้านใน (.pn) ให้เป็นสีส้มสว่าง */
+  }
+  .pick-opt.a-true {
+  border-color: #00ccff;              /* 1. เปลี่ยนสีเส้นขอบเป็นสีฟ้าอมเขียว (Cyan) */
+  background: rgba(0, 200, 255, .1);  /* 2. เปลี่ยนสีพื้นหลังเป็นสีฟ้าจางๆ (ความโปร่งแสง 10%) */
+  box-shadow: 0 0 10px rgba(0,200,255,.12); /* 3. ใส่เอฟเฟกต์เรืองแสง (Shadow) สีฟ้าฟุ้งๆ รอบกล่อง */
+  }
+  .pick-opt.a-true .pn {
+  color: #00ccff;  /* เปลี่ยนสีตัวอักษร (Text Color) ให้เป็นสีฟ้าอมเขียว (Cyan) */
+  }
+  .pick-opt.a-ais {
+  border-color: #00ccff;              /* 1. เปลี่ยนสีเส้นขอบเป็นสีฟ้าอมเขียว (Cyan) */
+  background: rgba(0, 200, 255, .1);  /* 2. เปลี่ยนสีพื้นหลังเป็นสีฟ้าจางๆ (ความโปร่งแสง 10%) */
+  box-shadow: 0 0 10px rgba(0,200,255,.12); /* 3. ใส่เอฟเฟกต์เรืองแสง (Shadow) สีฟ้าฟุ้งๆ รอบกล่อง */
+  }
+  .pick-opt.a-ais .pn {
+  color: #00ccff;  /* เปลี่ยนสีตัวอักษร (Text Color) ให้เป็นสีฟ้าอมเขียว (Cyan) */
+  }
+  /* จบชุดสร้างเครือข่ายเพิ่มเติม */
+  .pick-opt.a-npv{border-color:#00ccff;background:rgba(0,200,255,.08);box-shadow:0 0 10px rgba(0,200,255,.12);}
+  .pick-opt.a-npv .pn{color:#00ccff;}
+  .pick-opt.a-dark{border-color:#cc66ff;background:rgba(153,51,255,.08);box-shadow:0 0 10px rgba(153,51,255,.1);}
+  .pick-opt.a-dark .pn{color:#cc66ff;}
+  /* Create btn (ssh dark) */
+  .cbtn-ssh{background:transparent;border:2px solid #22c55e;color:#22c55e;font-size:13px;width:auto;padding:10px 28px;border-radius:10px;cursor:pointer;font-weight:700;font-family:'Sarabun',sans-serif;transition:all .2s;display:inline-flex;align-items:center;gap:6px;}
+  .cbtn-ssh:hover{background:rgba(34,197,94,.1);box-shadow:0 0 12px rgba(34,197,94,.2);}
+  /* Link result */
+  .link-result{display:none;margin-top:12px;border-radius:10px;overflow:hidden;}
+  .link-result.show{display:block;}
+  .link-result-hdr{display:flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(0,0,0,.3);border-bottom:1px solid rgba(255,255,255,.06);}
+  .imp-badge{font-size:.62rem;font-weight:700;letter-spacing:1.5px;padding:.18rem .55rem;border-radius:99px;}
+  .imp-badge.npv{background:rgba(0,180,255,.15);color:#00ccff;border:1px solid rgba(0,180,255,.3);}
+  .imp-badge.dark{background:rgba(153,51,255,.15);color:#cc66ff;border:1px solid rgba(153,51,255,.3);}
+  .link-preview{background:#060a12;border-radius:8px;padding:8px 10px;font-family:monospace;font-size:.56rem;color:#00aadd;word-break:break-all;line-height:1.6;margin:8px 12px;border:1px solid rgba(0,150,255,.15);max-height:54px;overflow:hidden;position:relative;}
+  .link-preview.dark-lp{border-color:rgba(153,51,255,.22);color:#aa55ff;}
+  .link-preview::after{content:'';position:absolute;bottom:0;left:0;right:0;height:14px;background:linear-gradient(transparent,#060a12);}
+  .copy-link-btn{width:calc(100% - 24px);margin:0 12px 10px;padding:.55rem;border-radius:8px;font-size:.82rem;font-weight:700;cursor:pointer;font-family:'Sarabun',sans-serif;border:1px solid;}
+  .copy-link-btn.npv{background:rgba(0,180,255,.07);border-color:rgba(0,180,255,.28);color:#00ccff;}
+  .copy-link-btn.dark{background:rgba(153,51,255,.07);border-color:rgba(153,51,255,.28);color:#cc66ff;}
+  /* User table */
+  .utbl-wrap{overflow-x:auto;margin-top:10px;}
+  .utbl{width:100%;border-collapse:collapse;font-size:12px;}
+  .utbl th{padding:8px 10px;text-align:left;font-family:'Orbitron',monospace;font-size:9px;letter-spacing:1.5px;color:var(--muted);border-bottom:1px solid var(--border);}
+  .utbl td{padding:9px 10px;border-bottom:1px solid var(--border);}
+  .utbl tr:last-child td{border-bottom:none;}
+  .bdg{padding:2px 8px;border-radius:20px;font-size:10px;font-family:'Orbitron',monospace;font-weight:700;}
+  .bdg-g{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);color:#22c55e;}
+  .bdg-r{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#ef4444;}
+  .btn-tbl{width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:#f8fafc;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:14px;}
+  .btn-tbl:hover{border-color:var(--ac);}
+  /* Renew days badge */
+  .days-badge{font-family:'Orbitron',monospace;font-size:10px;padding:2px 8px;border-radius:20px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);color:var(--ac);}
+
+  /* ── SELECTOR CARDS ── */  /* ── SELECTOR CARDS ── */
+  .sec-label{font-family:'Orbitron',monospace;font-size:9px;letter-spacing:3px;color:var(--muted);padding:6px 2px 10px;text-transform:uppercase;}
+  .sel-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .2s;box-shadow:var(--shadow);margin-bottom:10px;}
+  .sel-card:hover{border-color:var(--ac);background:var(--ac-dim);transform:translateX(2px);}
+  .sel-logo{width:64px;height:64px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .sel-ais{background:#fff;border:1px solid #c5e89a;}
+  .sel-true{background:#c8040d;}
+  .sel-ssh{background:#1565c0;}
+  .sel-ais-sm,.sel-true-sm,.sel-ssh-sm{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .sel-ais-sm{background:#fff;border:1px solid #c5e89a;}
+  .sel-true-sm{background:#c8040d;}
+  .sel-ssh-sm{background:#1565c0;}
+  .sel-info{flex:1;min-width:0;}
+  .sel-name{font-family:'Orbitron',monospace;font-size:.82rem;font-weight:700;margin-bottom:4px;}
+  .sel-name.ais{color:#3d7a0e;}
+  .sel-name.true{color:#c8040d;}
+  .sel-name.ssh{color:#1565c0;}
+  .sel-sub{font-size:11px;color:var(--muted);line-height:1.5;}
+  .sel-arrow{font-size:1.4rem;color:var(--muted);flex-shrink:0;}
+  /* ── FORM HEADER ── */
+  .form-back{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);cursor:pointer;padding:4px 2px 12px;font-weight:600;}
+  .form-back:hover{color:var(--txt);}
+  .form-hdr{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border);}
+  .form-title{font-family:'Orbitron',monospace;font-size:.85rem;font-weight:700;margin-bottom:3px;}
+  .form-title.ais{color:#3d7a0e;}
+  .form-title.true{color:#c8040d;}
+  .form-title.ssh{color:#1565c0;}
+  .form-sub{font-size:10px;color:var(--muted);}
+  .cbtn-ais{background:linear-gradient(135deg,#3d7a0e,#5aaa18);}
+  .cbtn-true{background:linear-gradient(135deg,#a6000c,#d81020);}
+
+  /* ── HDR logo animations (same as login) ── */
+  @keyframes hdr-orbit-dash {
+    from { stroke-dashoffset: 0; }
+    to   { stroke-dashoffset: -251; }
+  }
+  @keyframes hdr-pulse-draw {
+    0%   { stroke-dashoffset: 220; opacity: 0; }
+    15%  { opacity: 1; }
+    100% { stroke-dashoffset: 0; opacity: 1; }
+  }
+  @keyframes hdr-blink-dot {
+    0%, 100% { opacity: 0.25; }
+    50%       { opacity: 1; }
+  }
+  @keyframes hdr-logo-glow {
+    0%, 100% { filter: drop-shadow(0 0 6px #60a5fa) drop-shadow(0 0 14px #2563eb); }
+    50%       { filter: drop-shadow(0 0 14px #60a5fa) drop-shadow(0 0 28px #2563eb) drop-shadow(0 0 42px #06b6d4); }
+  }
+  .hdr-logo-svg-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 8px;
+    animation: hdr-logo-glow 3s ease-in-out infinite;
+  }
+  .hdr-orbit-ring { transform-origin: 50px 50px; animation: hdr-orbit-dash 8s linear infinite; }
+  .hdr-wave-anim  { stroke-dasharray:220; stroke-dashoffset:220; animation: hdr-pulse-draw 1.6s cubic-bezier(.4,0,.2,1) 0.5s forwards; }
+  .hdr-dot-1 { animation: hdr-blink-dot 2.2s ease-in-out 1.8s infinite; }
+  .hdr-dot-2 { animation: hdr-blink-dot 2.2s ease-in-out 2.2s infinite; }
+
+  /* ── Dashboard Fireflies (full page) ── */
+  .dash-ff {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    animation: dash-ff-drift linear infinite, dash-ff-blink ease-in-out infinite;
+    opacity: 0;
+  }
+  @keyframes dash-ff-drift {
+    0%   { transform: translate(0,0) scale(1); }
+    20%  { transform: translate(var(--dx1),var(--dy1)) scale(1.1); }
+    40%  { transform: translate(var(--dx2),var(--dy2)) scale(0.9); }
+    60%  { transform: translate(var(--dx3),var(--dy3)) scale(1.05); }
+    80%  { transform: translate(var(--dx4),var(--dy4)) scale(0.95); }
+    100% { transform: translate(0,0) scale(1); }
+  }
+  @keyframes dash-ff-blink {
+    0%,100%{ opacity:0; } 15%{ opacity:0; } 30%{ opacity:1; }
+    50%{ opacity:0.9; } 65%{ opacity:0; } 80%{ opacity:0.85; } 92%{ opacity:0; }
+  }
+
+  /* ══════════════════════════════════════════════
+     3D CARDS / TABS / BUTTONS — ทุกหน้า
+  ══════════════════════════════════════════════ */
+  .card {
+    border-radius: 18px !important;
+    border: 2px solid rgba(34,197,94,0.25) !important;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.08) inset,
+      0 8px 24px rgba(0,0,0,0.35),
+      0 2px 8px rgba(34,197,94,0.12),
+      0 16px 32px rgba(0,0,0,0.2) !important;
+    transform: translateY(0) translateZ(0);
+    transition: transform 0.18s cubic-bezier(.34,1.56,.64,1),
+                box-shadow 0.18s ease !important;
+  }
+  .card:hover {
+    transform: translateY(-3px) translateZ(0);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.1) inset,
+      0 14px 36px rgba(0,0,0,0.4),
+      0 4px 16px rgba(34,197,94,0.18),
+      0 24px 48px rgba(0,0,0,0.25) !important;
+  }
+
+  /* Nav items 3D */
+  .nav-item {
+    border-radius: 12px 12px 0 0 !important;
+    border: 2px solid transparent;
+    box-shadow: 0 -2px 6px rgba(0,0,0,0.15) inset;
+    transition: all 0.18s cubic-bezier(.34,1.56,.64,1) !important;
+    margin: 0 2px;
+    padding-top: 14px !important;
+    transform: translateY(2px);
+  }
+  .nav-item.active {
+    transform: translateY(0) !important;
+    border-color: rgba(34,197,94,0.35) !important;
+    box-shadow:
+      0 -4px 12px rgba(34,197,94,0.15),
+      0 1px 0 rgba(255,255,255,0.06) inset !important;
+  }
+  .nav-item:hover:not(.active) {
+    transform: translateY(-1px);
+    border-color: rgba(34,197,94,0.15) !important;
+  }
+
+  /* All buttons 3D */
+  .cbtn, .btn-r, .cbtm-ssh, .btn-tbl, .pbtn, .tbtn,
+  .copy-btn, .copy-link-btn, .logout, .mclose,
+  .abtn, .port-btn, .pick-opt {
+    border-radius: 12px !important;
+    box-shadow:
+      0 4px 0 rgba(0,0,0,0.35),
+      0 1px 0 rgba(255,255,255,0.12) inset,
+      0 6px 16px rgba(0,0,0,0.2) !important;
+    transform: translateY(0);
+    transition: transform 0.12s cubic-bezier(.34,1.56,.64,1),
+                box-shadow 0.12s ease !important;
+    border-width: 2px !important;
+  }
+  .cbtn:hover, .btn-r:hover, .copy-btn:hover,
+  .abtn:hover, .port-btn:hover, .pick-opt:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 6px 0 rgba(0,0,0,0.35),
+      0 1px 0 rgba(255,255,255,0.15) inset,
+      0 10px 24px rgba(0,0,0,0.25) !important;
+  }
+  .cbtn:active, .btn-r:active, .copy-btn:active,
+  .abtn:active, .port-btn:active, .pick-opt:active,
+  .btn-tbl:active, .logout:active {
+    transform: translateY(3px) scale(0.97) !important;
+    box-shadow:
+      0 1px 0 rgba(0,0,0,0.4),
+      0 0 0 rgba(255,255,255,0.06) inset !important;
+    transition: transform 0.06s ease, box-shadow 0.06s ease !important;
+  }
+
+  /* sel-card 3D */
+  .sel-card {
+    border-radius: 18px !important;
+    border: 2px solid var(--border) !important;
+    box-shadow:
+      0 4px 0 rgba(0,0,0,0.2),
+      0 1px 0 rgba(255,255,255,0.08) inset,
+      0 8px 20px rgba(0,0,0,0.12) !important;
+    transform: translateY(0) translateX(0);
+    transition: transform 0.18s cubic-bezier(.34,1.56,.64,1),
+                box-shadow 0.18s ease !important;
+  }
+  .sel-card:hover {
+    transform: translateY(-3px) translateX(2px) !important;
+    box-shadow:
+      0 8px 0 rgba(0,0,0,0.25),
+      0 1px 0 rgba(255,255,255,0.1) inset,
+      0 16px 32px rgba(0,0,0,0.18) !important;
+  }
+  .sel-card:active {
+    transform: translateY(2px) translateX(0) scale(0.98) !important;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.3) !important;
+    transition: transform 0.06s ease !important;
+  }
+
+  /* uitems 3D */
+  .uitem {
+    border-radius: 14px !important;
+    border: 2px solid var(--border) !important;
+    box-shadow:
+      0 3px 0 rgba(0,0,0,0.18),
+      0 1px 0 rgba(255,255,255,0.07) inset,
+      0 6px 14px rgba(0,0,0,0.08) !important;
+    transform: translateY(0);
+    transition: transform 0.15s cubic-bezier(.34,1.56,.64,1),
+                box-shadow 0.15s ease !important;
+  }
+  .uitem:hover {
+    transform: translateY(-2px) !important;
+    box-shadow:
+      0 6px 0 rgba(0,0,0,0.22),
+      0 1px 0 rgba(255,255,255,0.09) inset,
+      0 12px 24px rgba(0,0,0,0.12) !important;
+  }
+  .uitem:active {
+    transform: translateY(2px) scale(0.98) !important;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.3) !important;
+    transition: transform 0.06s ease !important;
+  }
+  /* bounce keyframe สำหรับกด */
+  @keyframes btn-bounce {
+    0%   { transform: scale(1); }
+    30%  { transform: scale(0.93) translateY(3px); }
+    60%  { transform: scale(1.04) translateY(-2px); }
+    80%  { transform: scale(0.98) translateY(1px); }
+    100% { transform: scale(1) translateY(0); }
+  }
+  .cbtn:active, .btn-r:active, .copy-btn:active { animation: btn-bounce 0.28s ease forwards !important; }
+
+  /* Nav 3D pills override */
+  .nav-item{border-radius:999px!important;box-shadow:0 3px 0 rgba(0,0,0,0.3),0 1px 0 rgba(255,255,255,0.1) inset!important;border-width:1.5px!important;}
+  .nav-item.active{transform:translateY(-2px)!important;}
+  .nav-item:hover:not(.active){transform:translateY(-1px);}
+
+  /* Fireflies inside cards */
+  .card-ff{position:absolute;border-radius:50%;pointer-events:none;z-index:0;animation:cff-drift linear infinite,cff-blink ease-in-out infinite;opacity:0;}
+  @keyframes cff-drift{0%{transform:translate(0,0) scale(1);}20%{transform:translate(var(--dx1),var(--dy1)) scale(1.1);}40%{transform:translate(var(--dx2),var(--dy2)) scale(0.9);}60%{transform:translate(var(--dx3),var(--dy3)) scale(1.05);}80%{transform:translate(var(--dx4),var(--dy4)) scale(0.95);}100%{transform:translate(0,0) scale(1);}}
+  @keyframes cff-blink{0%,100%{opacity:0;}15%{opacity:0;}30%{opacity:0.9;}50%{opacity:0.7;}65%{opacity:0;}80%{opacity:0.8;}92%{opacity:0;}}
+  .card>*:not(.card-ff){position:relative;z-index:1;}
+  .sc>*:not(.card-ff){position:relative;z-index:1;}
+
+  /* SPEED TEST */
+  .speed-hero{background:linear-gradient(160deg,#0a1628 0%,#061020 100%);border:2px solid rgba(6,182,212,0.2);border-radius:20px;padding:24px 16px;margin-bottom:12px;text-align:center;position:relative;overflow:hidden;}
+  .speed-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(6,182,212,0.12),transparent);}
+  .speed-title{font-family:'Orbitron',monospace;font-size:11px;letter-spacing:4px;color:rgba(6,182,212,0.7);margin-bottom:8px;}
+  .speed-gauge-wrap{position:relative;width:160px;height:80px;margin:0 auto 16px;}
+  .speed-gauge-svg{overflow:visible;}
+  .speed-gauge-bg{fill:none;stroke:rgba(255,255,255,0.06);stroke-width:12;stroke-linecap:round;}
+  .speed-gauge-fill{fill:none;stroke-width:12;stroke-linecap:round;transition:stroke-dashoffset 0.8s cubic-bezier(.34,1.56,.64,1),stroke 0.3s;transform-origin:80px 80px;}
+  .speed-center{position:absolute;bottom:0;left:50%;transform:translateX(-50%);text-align:center;}
+  .speed-val{font-family:'Orbitron',monospace;font-size:32px;font-weight:900;line-height:1;background:linear-gradient(90deg,#06b6d4,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .speed-unit{font-family:'Orbitron',monospace;font-size:9px;letter-spacing:3px;color:rgba(6,182,212,0.5);margin-top:2px;}
+  .speed-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+  .speed-btn{padding:14px;border-radius:14px;border:none;cursor:pointer;font-family:'Orbitron',monospace;font-size:10px;font-weight:700;letter-spacing:2px;transition:all 0.2s;}
+  .speed-btn-dl{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;box-shadow:0 4px 16px rgba(37,99,235,0.4);}
+  .speed-btn-dl:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,99,235,0.5);}
+  .speed-btn-ul{background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#fff;box-shadow:0 4px 16px rgba(124,58,237,0.4);}
+  .speed-btn-ul:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(124,58,237,0.5);}
+  .speed-btn:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
+  .speed-results{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+  .speed-res-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:16px;text-align:center;}
+  .speed-res-icon{font-size:20px;margin-bottom:6px;}
+  .speed-res-label{font-family:'Orbitron',monospace;font-size:8px;letter-spacing:2px;color:rgba(255,255,255,0.4);margin-bottom:4px;}
+  .speed-res-val{font-family:'Orbitron',monospace;font-size:22px;font-weight:900;line-height:1;}
+  .speed-res-val.dl-color{color:#60a5fa;}
+  .speed-res-val.ul-color{color:#a78bfa;}
+  .speed-res-unit{font-size:9px;color:rgba(255,255,255,0.3);margin-top:2px;}
+  .speed-status{font-size:12px;color:rgba(6,182,212,0.7);min-height:18px;margin-bottom:12px;}
+  .speed-ping-row{display:flex;justify-content:center;gap:20px;margin-bottom:12px;}
+  .speed-ping-item{text-align:center;}
+  .speed-ping-label{font-family:'Orbitron',monospace;font-size:8px;letter-spacing:2px;color:rgba(255,255,255,0.35);margin-bottom:2px;}
+  .speed-ping-val{font-family:'Orbitron',monospace;font-size:16px;font-weight:700;color:#4ade80;}
+  .speed-ping-val.warn{color:#fbbf24;}
+  .speed-ping-val.bad{color:#ef4444;}
+  .speed-bar-wrap{height:4px;background:rgba(255,255,255,0.06);border-radius:2px;margin-top:8px;overflow:hidden;}
+  .speed-bar{height:100%;border-radius:2px;width:0%;transition:width 0.3s ease;}
+  .speed-bar.dl-bar{background:linear-gradient(90deg,#2563eb,#60a5fa);}
+  .speed-bar.ul-bar{background:linear-gradient(90deg,#7c3aed,#a78bfa);}
+  .speed-info-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+  .speed-info-item{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:10px;text-align:center;}
+  .speed-info-lbl{font-family:'Orbitron',monospace;font-size:7px;letter-spacing:1px;color:rgba(255,255,255,0.3);margin-bottom:4px;}
+  .speed-info-val{font-size:12px;font-weight:700;color:rgba(255,255,255,0.8);}
+  .speed-prog{height:3px;background:rgba(6,182,212,0.15);border-radius:2px;overflow:hidden;margin-bottom:8px;}
+  .speed-prog-fill{height:100%;background:linear-gradient(90deg,#06b6d4,#60a5fa);border-radius:2px;width:0%;transition:width 0.2s ease;}
+
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="hdr" id="hdr-root">
+    <button class="logout" onclick="doLogout()">↩ ออกจากระบบ</button>
+
+    <!-- Logo SVG (same as login) -->
+    <div class="hdr-logo-svg-wrap">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="72" height="72">
+        <defs>
+          <linearGradient id="hW" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#2563eb"/>
+            <stop offset="50%"  stop-color="#60a5fa"/>
+            <stop offset="100%" stop-color="#06b6d4"/>
+          </linearGradient>
+          <radialGradient id="hBg" cx="50%" cy="50%" r="50%">
+            <stop offset="0%"   stop-color="#0f1e4a" stop-opacity="0.95"/>
+            <stop offset="100%" stop-color="#060c1e" stop-opacity="0.98"/>
+          </radialGradient>
+          <filter id="hGlow">
+            <feGaussianBlur stdDeviation="2.5" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <clipPath id="hClip"><circle cx="50" cy="50" r="34"/></clipPath>
+        </defs>
+        <circle cx="50" cy="50" r="46" fill="none" stroke="rgba(37,99,235,0.12)" stroke-width="1"/>
+        <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(96,165,250,0.2)" stroke-width="1" stroke-dasharray="5 4" class="hdr-orbit-ring"/>
+        <circle cx="50" cy="50" r="38" fill="none" stroke="rgba(37,99,235,0.22)" stroke-width="1"/>
+        <circle cx="50" cy="50" r="34" fill="url(#hBg)"/>
+        <circle cx="50" cy="50" r="34" fill="none" stroke="url(#hW)" stroke-width="1.8" opacity="0.9"/>
+        <line x1="50" y1="14" x2="50" y2="20" stroke="rgba(96,165,250,0.55)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="50" y1="80" x2="50" y2="86" stroke="rgba(96,165,250,0.55)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="14" y1="50" x2="20" y2="50" stroke="rgba(96,165,250,0.55)" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="80" y1="50" x2="86" y2="50" stroke="rgba(96,165,250,0.55)" stroke-width="1.5" stroke-linecap="round"/>
+        <g clip-path="url(#hClip)">
+          <polyline points="16,50 24,50 29,32 34,68 39,32 44,50 84,50"
+            fill="none" stroke="url(#hW)" stroke-width="2.2"
+            stroke-linecap="round" stroke-linejoin="round"
+            filter="url(#hGlow)" class="hdr-wave-anim"/>
+        </g>
+        <circle cx="29" cy="32" r="2.5" fill="#60a5fa" filter="url(#hGlow)" class="hdr-dot-1"/>
+        <circle cx="39" cy="32" r="2.5" fill="#06b6d4" filter="url(#hGlow)" class="hdr-dot-2"/>
+        <circle cx="34" cy="68" r="2.5" fill="#60a5fa" filter="url(#hGlow)" class="hdr-dot-1"/>
+      </svg>
+    </div>
+
+    <div style="font-family:'Orbitron',monospace;font-size:18px;font-weight:900;letter-spacing:4px;background:linear-gradient(90deg,#e0f2fe,#60a5fa,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">CHAIYA</div>
+    <div style="font-family:'Orbitron',monospace;font-size:8px;letter-spacing:9px;color:rgba(96,165,250,0.6);margin-top:2px;">PROJECT</div>
+    <div style="width:140px;height:1px;background:linear-gradient(90deg,transparent,#60a5fa,#06b6d4,transparent);margin:6px auto;opacity:0.5;"></div>
+    <div style="font-family:'Orbitron',monospace;font-size:8px;letter-spacing:4px;color:rgba(6,182,212,0.55);margin-top:2px;">V2RAY &amp; SSH</div>
+    <div style="font-family:'Orbitron',monospace;font-size:8px;letter-spacing:3px;color:rgba(96,165,250,0.5);margin-top:4px;" id="hdr-domain">SECURE PANEL</div>
+  </div>
+
+  <!-- NAV -->
+  <div class="nav-wrap">
+  <div class="nav">
+    <div class="nav-item active" onclick="sw('dashboard',this)">📊 แดชบอร์ด</div>
+    <div class="nav-item" onclick="sw('create',this)">➕ สร้างยูส</div>
+    <div class="nav-item" onclick="sw('manage',this)">🔧 จัดการยูส</div>
+    <div class="nav-item" onclick="sw('online',this)">🟢 ออนไลน์</div>
+    <div class="nav-item" onclick="sw('ban',this)">🚫 ปลดแบน</div>
+    <div class="nav-item nav-speed" onclick="sw('speed',this)">⚡ สปีดเทส</div>
+  </div>
+  </div>
+
+  <!-- ════ DASHBOARD ════ -->
+  <div class="sec active" id="tab-dashboard">
+    <div class="sec-hdr">
+      <span class="sec-title">⚡ SYSTEM MONITOR</span>
+      <button class="btn-r" id="btn-refresh" onclick="loadDash()">↻ รีเฟรช</button>
+    </div>
+    <div class="sgrid">
+      <div class="sc">
+        <div class="slbl">⚡ CPU USAGE</div>
+        <div class="dnut">
+          <svg width="52" height="52" viewBox="0 0 52 52">
+            <circle class="dbg" cx="26" cy="26" r="22"/>
+            <circle class="dv" id="cpu-ring" cx="26" cy="26" r="22" stroke="#4ade80"
+              stroke-dasharray="138.2" stroke-dashoffset="138.2"/>
+          </svg>
+          <div class="dc" id="cpu-pct">--%</div>
+        </div>
+        <div style="text-align:center;font-size:10px;color:var(--muted)" id="cpu-cores">-- cores</div>
+        <div class="pb"><div class="pf pg" id="cpu-bar" style="width:0%"></div></div>
+      </div>
+      <div class="sc">
+        <div class="slbl">🧠 RAM USAGE</div>
+        <div class="dnut">
+          <svg width="52" height="52" viewBox="0 0 52 52">
+            <circle class="dbg" cx="26" cy="26" r="22"/>
+            <circle class="dv" id="ram-ring" cx="26" cy="26" r="22" stroke="#3b82f6"
+              stroke-dasharray="138.2" stroke-dashoffset="138.2"/>
+          </svg>
+          <div class="dc" id="ram-pct">--%</div>
+        </div>
+        <div style="text-align:center;font-size:10px;color:var(--muted)" id="ram-detail">-- / -- GB</div>
+        <div class="pb"><div class="pf pu" id="ram-bar" style="width:0%;background:linear-gradient(90deg,#3b82f6,#60a5fa)"></div></div>
+      </div>
+      <div class="sc">
+        <div class="slbl">💾 DISK USAGE</div>
+        <div class="sval" id="disk-pct">--<span>%</span></div>
+        <div class="ssub" id="disk-detail">-- / -- GB</div>
+        <div class="pb"><div class="pf po" id="disk-bar" style="width:0%"></div></div>
+      </div>
+      <div class="sc">
+        <div class="slbl">⏱ UPTIME</div>
+        <div class="sval" id="uptime-val" style="font-size:20px">--</div>
+        <div class="ssub" id="uptime-sub">--</div>
+        <div class="ubdg" id="load-chips"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="sec-title">🌐 NETWORK I/O</div>
+      <div class="net-row">
+        <div class="ni">
+          <div class="nd">↑ Upload</div>
+          <div class="ns" id="net-up">--<span> --</span></div>
+          <div class="nt" id="net-up-total">total: --</div>
+        </div>
+        <div class="divider"></div>
+        <div class="ni" style="text-align:right">
+          <div class="nd">↓ Download</div>
+          <div class="ns" id="net-dn">--<span> --</span></div>
+          <div class="nt" id="net-dn-total">total: --</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="sec-title">📡 X-UI PANEL STATUS</div>
+      <div class="xui-row">
+        <div id="xui-pill" class="opill off"><span class="dot red"></span>กำลังเช็ค...</div>
+        <div class="xui-info">
+          <div>เวอร์ชัน Xray: <b id="xui-ver">--</b></div>
+          <div>Inbounds: <b id="xui-inbounds">--</b> รายการ</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="sec-hdr" style="margin-bottom:0">
+        <div class="sec-title">🔧 SERVICE MONITOR</div>
+        <button class="btn-r" onclick="loadServices()">↻ เช็ค</button>
+      </div>
+      <div class="svc-list" id="svc-list">
+        <div class="loading">กำลังโหลด...</div>
+      </div>
+    </div>
+    <div class="lu" id="last-update">อัพเดทล่าสุด: --</div>
+  </div>
+
+  <!-- ════ CREATE ════ -->
+  <div class="sec" id="tab-create">
+
+    <!-- ── SELECTOR (default view) ── -->
+    <div id="create-menu">
+      <div class="sec-label">🛡 ระบบ 3X-UI VLESS</div>
+      <div class="sel-card" onclick="openForm('ais')">
+        <div class="sel-logo sel-ais"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/AIS_logo.svg/200px-AIS_logo.svg.png" onerror="this.style.display='none';this.nextSibling.style.display='flex'" style="width:56px;height:56px;object-fit:contain"><span style="display:none;font-size:1.4rem;width:56px;height:56px;align-items:center;justify-content:center;font-weight:700;color:#3d7a0e">AIS</span></div>
+        <div class="sel-info">
+          <div class="sel-name ais">AIS – กันรั่ว</div>
+          <div class="sel-sub">VLESS · Port 8080 · WS · cj-ebb.speedtest.net</div>
+        </div>
+        <span class="sel-arrow">›</span>
+      </div>
+      <div class="sel-card" onclick="openForm('true')">
+        <div class="sel-logo sel-true"><span style="font-size:1.1rem;font-weight:900;color:#fff">true</span></div>
+        <div class="sel-info">
+          <div class="sel-name true">TRUE – VDO</div>
+          <div class="sel-sub">VLESS · Port 8880 · WS · true-internet.zoom.xyz.services</div>
+        </div>
+        <span class="sel-arrow">›</span>
+      </div>
+
+      <div class="sec-label" style="margin-top:20px">🔑 ระบบ SSH WEBSOCKET</div>
+      <div class="sel-card" onclick="openForm('ssh')">
+        <div class="sel-logo sel-ssh"><span style="font-size:.75rem;font-weight:700;color:#fff;font-family:monospace">SSH&gt;</span></div>
+        <div class="sel-info">
+          <div class="sel-name ssh">SSH – WS Tunnel</div>
+          <div class="sel-sub">SSH · Port 80 · Dropbear 143/109<br>NpvTunnel / DarkTunnel</div>
+        </div>
+        <span class="sel-arrow">›</span>
+      </div>
+    </div>
+
+    <!-- ── FORM: AIS ── -->
+    <div id="form-ais" style="display:none">
+      <div class="form-back" onclick="closeForm()">‹ กลับ</div>
+      <div class="card">
+        <div class="form-hdr ais-hdr">
+          <div class="form-logo sel-ais-sm"><span style="font-size:.8rem;font-weight:700;color:#3d7a0e">AIS</span></div>
+          <div>
+            <div class="form-title ais">AIS – กันรั่ว</div>
+            <div class="form-sub">VLESS · Port 8080 · SNI: cj-ebb.speedtest.net</div>
+          </div>
+        </div>
+        <div class="fg"><div class="flbl">👤 EMAIL / ชื่อยูส</div><input class="fi" id="ais-email" placeholder="user@ais"></div>
+        <div class="fg"><div class="flbl">📅 วันใช้งาน (0 = ไม่จำกัด)</div><input class="fi" id="ais-days" type="number" value="30" min="0"></div>
+        <div class="fg"><div class="flbl">📱 IP LIMIT</div><input class="fi" id="ais-ip" type="number" value="2" min="1"></div>
+        <div class="fg"><div class="flbl">💾 Data GB (0 = ไม่จำกัด)</div><input class="fi" id="ais-gb" type="number" value="0" min="0"></div>
+        <button class="cbtn cbtn-ais" id="ais-btn" onclick="createVLESS('ais')">⚡ สร้าง AIS Account</button>
+        <div class="alert" id="ais-alert"></div>
+        <div class="res-box" id="ais-result">
+          <button class="res-close" onclick="document.getElementById('ais-result').style.display='none'">✕</button>
+          <div class="res-row"><span class="res-k">📧 Email</span><span class="res-v" id="r-ais-email">--</span></div>
+          <div class="res-row"><span class="res-k">🆔 UUID</span><span class="res-v mono" id="r-ais-uuid">--</span></div>
+          <div class="res-row"><span class="res-k">📅 หมดอายุ</span><span class="res-v green" id="r-ais-exp">--</span></div>
+          <div class="res-link" id="r-ais-link">--</div>
+          <button class="copy-btn" onclick="copyLink('r-ais-link',this)">📋 Copy VLESS Link</button>
+          <div id="ais-qr" style="text-align:center;margin-top:12px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── FORM: TRUE ── -->
+    <div id="form-true" style="display:none">
+      <div class="form-back" onclick="closeForm()">‹ กลับ</div>
+      <div class="card">
+        <div class="form-hdr true-hdr">
+          <div class="sel-logo sel-true-sm"><span style="font-size:.75rem;font-weight:900;color:#fff">true</span></div>
+          <div>
+            <div class="form-title true">TRUE – VDO</div>
+            <div class="form-sub">VLESS · Port 8880 · SNI: true-internet.zoom.xyz.services</div>
+          </div>
+        </div>
+        <div class="fg"><div class="flbl">👤 EMAIL / ชื่อยูส</div><input class="fi" id="true-email" placeholder="user@true"></div>
+        <div class="fg"><div class="flbl">📅 วันใช้งาน (0 = ไม่จำกัด)</div><input class="fi" id="true-days" type="number" value="30" min="0"></div>
+        <div class="fg"><div class="flbl">📱 IP LIMIT</div><input class="fi" id="true-ip" type="number" value="2" min="1"></div>
+        <div class="fg"><div class="flbl">💾 Data GB (0 = ไม่จำกัด)</div><input class="fi" id="true-gb" type="number" value="0" min="0"></div>
+        <button class="cbtn cbtn-true" id="true-btn" onclick="createVLESS('true')">⚡ สร้าง TRUE Account</button>
+        <div class="alert" id="true-alert"></div>
+        <div class="res-box" id="true-result">
+          <button class="res-close" onclick="document.getElementById('true-result').style.display='none'">✕</button>
+          <div class="res-row"><span class="res-k">📧 Email</span><span class="res-v" id="r-true-email">--</span></div>
+          <div class="res-row"><span class="res-k">🆔 UUID</span><span class="res-v mono" id="r-true-uuid">--</span></div>
+          <div class="res-row"><span class="res-k">📅 หมดอายุ</span><span class="res-v green" id="r-true-exp">--</span></div>
+          <div class="res-link" id="r-true-link">--</div>
+          <button class="copy-btn" onclick="copyLink('r-true-link',this)">📋 Copy VLESS Link</button>
+          <div id="true-qr" style="text-align:center;margin-top:12px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── FORM: SSH ── -->
+    <div id="form-ssh" style="display:none">
+      <div class="form-back" onclick="closeForm()">‹ กลับ</div>
+      <div class="ssh-dark-form">
+        <div class="dark-lbl">➕ เพิ่ม SSH USER</div>
+        <div class="fg"><div class="flbl">ชื่อผู้ใช้</div><input class="fi" id="ssh-user" placeholder="username"></div>
+        <div class="fg"><div class="flbl">รหัสผ่าน</div><input class="fi" id="ssh-pass" placeholder="password" type="password"></div>
+        <div class="fg"><div class="flbl">จำนวนวัน</div><input class="fi" id="ssh-days" type="number" value="30" min="1"></div>
+        <div class="fg"><div class="flbl">ลิมิตไอพี</div><input class="fi" id="ssh-ip" type="number" value="2" min="1"></div>
+
+        <div class="dark-lbl" style="margin-top:4px">✈️ เลือก PORT</div>
+        <div class="port-grid">
+          <div class="port-btn active-p80" id="pb-80" onclick="pickPort('80')">
+            <div class="pb-icon">🌐</div>
+            <div class="pb-name">Port 80</div>
+            <div class="pb-sub">WS · HTTP</div>
+          </div>
+          <div class="port-btn" id="pb-443" onclick="pickPort('443')">
+            <div class="pb-icon">🔒</div>
+            <div class="pb-name">Port 443</div>
+            <div class="pb-sub">WSS · SSL</div>
+          </div>
+        </div>
+
+        <div class="dark-lbl">🌐 เลือก ISP / OPERATOR</div>
+        <div class="pick-grid">
+          <div class="pick-opt a-dtac" id="pro-dtac" onclick="pickPro('dtac')">
+            <div class="pi">🟠</div>
+            <div class="pn">DTAC GAMING</div>
+            <div class="ps">dl.dir.freefiremobile.com</div>
+          </div>
+          <div class="pick-opt" id="pro-true" onclick="pickPro('true')">
+            <div class="pi">🔵</div>
+            <div class="pn">TRUE TWITTER</div>
+            <div class="ps">help.x.com</div>
+          </div>
+		  <div class="pick-opt" id="pro-ais" onclick="pickPro('ais')">
+            <div class="pi">🔵</div>
+            <div class="pn">AIS NOPRO</div>
+            <div class="ps">topup.ais.co.th</div>
+          </div>
+        </div>
+
+        <div class="dark-lbl">📱 เลือก APP</div>
+        <div class="pick-grid">
+          <div class="pick-opt a-npv" id="app-npv" onclick="pickApp('npv')">
+            <div class="pi"><div style="width:38px;height:38px;border-radius:10px;background:#0d2a3a;display:flex;align-items:center;justify-content:center;margin:0 auto .1rem;font-family:monospace;font-weight:900;font-size:.85rem;color:#00ccff;letter-spacing:-1px;border:1.5px solid rgba(0,204,255,.3)">nV</div></div>
+            <div class="pn">Npv Tunnel</div>
+            <div class="ps">npvt-ssh://</div>
+          </div>
+          <div class="pick-opt" id="app-dark" onclick="pickApp('dark')">
+            <div class="pi"><div style="width:38px;height:38px;border-radius:10px;background:#111;display:flex;align-items:center;justify-content:center;margin:0 auto .1rem;font-family:sans-serif;font-weight:900;font-size:.62rem;color:#fff;letter-spacing:.5px;border:1.5px solid #444">DARK</div></div>
+            <div class="pn">DarkTunnel</div>
+            <div class="ps">darktunnel://</div>
+          </div>
+        </div>
+
+        <button class="cbtn-ssh" id="ssh-btn" onclick="createSSH()">➕ สร้าง User</button>
+        <div class="alert" id="ssh-alert" style="margin-top:10px"></div>
+        <div class="link-result" id="ssh-link-result"></div>
+      </div>
+
+      <!-- User table -->
+      <div class="card" style="margin-top:10px">
+        <div class="sec-hdr">
+          <div class="dark-lbl" style="margin:0">📋 รายชื่อ USERS</div>
+          <input class="sbox" id="ssh-search" placeholder="ค้นหา..." oninput="filterSSHUsers(this.value)"
+            style="width:120px;margin:0;font-size:11px;padding:6px 10px">
+        </div>
+        <div class="utbl-wrap">
+          <table class="utbl">
+            <thead><tr><th>#</th><th>USERNAME</th><th>หมดอายุ</th><th>สถานะ</th><th>ACTION</th></tr></thead>
+            <tbody id="ssh-user-tbody"><tr><td colspan="5" style="text-align:center;padding:20px;color:var(--muted)">กำลังโหลด...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /tab-create -->
+
+<!-- ════ MANAGE ════ -->
+  <div class="sec" id="tab-manage">
+    <div class="card">
+      <div class="sec-hdr">
+        <div class="ftitle" style="margin-bottom:0">🔧 จัดการยูสเซอร์ VLESS</div>
+        <button class="btn-r" onclick="loadUsers()">↻ โหลด</button>
+      </div>
+      <input class="sbox" id="user-search" placeholder="🔍  ค้นหา username..." oninput="filterUsers(this.value)">
+      <div id="user-list"><div class="loading">กดปุ่มโหลดเพื่อดึงข้อมูล</div></div>
+    </div>
+  </div>
+
+  <!-- ════ ONLINE ════ -->
+  <div class="sec" id="tab-online">
+    <div class="card">
+      <div class="sec-hdr">
+        <div class="ftitle" style="margin-bottom:0">🟢 ยูสเซอร์ออนไลน์ตอนนี้</div>
+        <button class="btn-r" onclick="loadOnline()">↻ รีเฟรช</button>
+      </div>
+      <div class="ocr">
+        <div class="opill" id="online-pill"><span class="dot"></span><span id="online-count">0</span> ออนไลน์</div>
+        <span class="ut" id="online-time">--</span>
+      </div>
+      <div id="online-list"><div class="loading">กดรีเฟรชเพื่อดูผู้ใช้ออนไลน์</div></div>
+    </div>
+  </div>
+
+  <!-- ════ BAN ════ -->
+  <div class="sec" id="tab-ban">
+    <div class="card">
+      <div class="ftitle">🚫 จัดการ SSH Users</div>
+      <div class="fg"><div class="flbl">👤 USERNAME</div>
+        <input class="fi" id="ban-user" placeholder="ใส่ username ที่ต้องการลบ"></div>
+      <button class="cbtn" style="background:linear-gradient(135deg,#15803d,#22c55e)" onclick="deleteSSH()">🗑️ ลบ SSH User</button>
+      <div class="alert" id="ban-alert"></div>
+    </div>
+    <div class="card" style="margin-top:4px">
+      <div class="ftitle">📋 SSH Users ทั้งหมด</div>
+      <div id="ssh-user-list"><div class="loading">กำลังโหลด...</div></div>
+    </div>
+  </div>
+
+
+  <!-- SPEED TEST TAB -->
+  <div class="sec" id="tab-speed">
+    <div class="speed-hero">
+      <div class="speed-title">⚡ VPS SPEED TEST</div>
+      <div class="speed-prog"><div class="speed-prog-fill" id="speed-prog-fill"></div></div>
+      <div class="speed-status" id="speed-status">กดปุ่มเพื่อเริ่มทดสอบ</div>
+      <div class="speed-gauge-wrap">
+        <svg class="speed-gauge-svg" viewBox="0 0 160 90" width="160" height="90">
+          <path d="M10,80 A70,70 0 0,1 150,80" class="speed-gauge-bg"/>
+          <path id="gauge-fill" d="M10,80 A70,70 0 0,1 150,80" class="speed-gauge-fill"
+            stroke="#06b6d4" stroke-dasharray="220" stroke-dashoffset="220"/>
+        </svg>
+        <div class="speed-center">
+          <div class="speed-val" id="gauge-val">--</div>
+          <div class="speed-unit" id="gauge-unit">Mbps</div>
+        </div>
+      </div>
+      <div class="speed-ping-row">
+        <div class="speed-ping-item"><div class="speed-ping-label">PING</div><div class="speed-ping-val" id="ping-val">-- ms</div></div>
+        <div class="speed-ping-item"><div class="speed-ping-label">JITTER</div><div class="speed-ping-val" id="jitter-val">-- ms</div></div>
+        <div class="speed-ping-item"><div class="speed-ping-label">PACKET LOSS</div><div class="speed-ping-val" id="loss-val">--%</div></div>
+      </div>
+    </div>
+    <div class="speed-results">
+      <div class="speed-res-card">
+        <div class="speed-res-icon">⬇️</div>
+        <div class="speed-res-label">DOWNLOAD</div>
+        <div class="speed-res-val dl-color" id="dl-val">--</div>
+        <div class="speed-res-unit">Mbps</div>
+        <div class="speed-bar-wrap"><div class="speed-bar dl-bar" id="dl-bar"></div></div>
+      </div>
+      <div class="speed-res-card">
+        <div class="speed-res-icon">⬆️</div>
+        <div class="speed-res-label">UPLOAD</div>
+        <div class="speed-res-val ul-color" id="ul-val">--</div>
+        <div class="speed-res-unit">Mbps</div>
+        <div class="speed-bar-wrap"><div class="speed-bar ul-bar" id="ul-bar"></div></div>
+      </div>
+    </div>
+    <div class="speed-btns">
+      <button class="speed-btn speed-btn-dl" id="btn-dl" onclick="startSpeedTest('download')">⬇️ TEST DOWNLOAD</button>
+      <button class="speed-btn speed-btn-ul" id="btn-ul" onclick="startSpeedTest('upload')">⬆️ TEST UPLOAD</button>
+    </div>
+    <div class="card">
+      <div class="sec-title" style="margin-bottom:12px">📡 VPS INFO</div>
+      <div class="speed-info-grid">
+        <div class="speed-info-item"><div class="speed-info-lbl">SERVER IP</div><div class="speed-info-val" id="vps-ip" style="font-size:10px">--</div></div>
+        <div class="speed-info-item"><div class="speed-info-lbl">TEST SIZE</div><div class="speed-info-val" id="test-size">25 MB</div></div>
+        <div class="speed-info-item"><div class="speed-info-lbl">PROTOCOL</div><div class="speed-info-val">HTTP</div></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+
+<!-- MODAL -->
+<div class="mover" id="modal" onclick="if(event.target===this)cm()">
+  <div class="modal">
+    <div class="mhdr">
+      <div class="mtitle" id="mt">⚙️ user</div>
+      <button class="mclose" onclick="cm()">✕</button>
+    </div>
+    <div class="dgrid">
+      <div class="dr"><span class="dk">👤 Email</span><span class="dv" id="du">--</span></div>
+      <div class="dr"><span class="dk">📡 Port</span><span class="dv" id="dp">--</span></div>
+      <div class="dr"><span class="dk">📅 หมดอายุ</span><span class="dv green" id="de">--</span></div>
+      <div class="dr"><span class="dk">📦 Data Limit</span><span class="dv" id="dd">--</span></div>
+      <div class="dr"><span class="dk">📊 Traffic ใช้</span><span class="dv" id="dtr">--</span></div>
+      <div class="dr"><span class="dk">📱 IP Limit</span><span class="dv" id="di">--</span></div>
+      <div class="dr"><span class="dk">🆔 UUID</span><span class="dv mono" id="duu">--</span></div>
+    </div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:10px">เลือกการดำเนินการ</div>
+    <div class="agrid">
+      <div class="abtn" onclick="mAction('renew')"><div class="ai">🔄</div><div class="an">ต่ออายุ</div><div class="ad">รีเซตจากวันนี้</div></div>
+      <div class="abtn" onclick="mAction('extend')"><div class="ai">📅</div><div class="an">เพิ่มวัน</div><div class="ad">ต่อจากวันหมด</div></div>
+      <div class="abtn" onclick="mAction('adddata')"><div class="ai">📦</div><div class="an">เพิ่ม Data</div><div class="ad">เติม GB เพิ่ม</div></div>
+      <div class="abtn" onclick="mAction('setdata')"><div class="ai">⚖️</div><div class="an">ตั้ง Data</div><div class="ad">กำหนดใหม่</div></div>
+      <div class="abtn" onclick="mAction('reset')"><div class="ai">🔃</div><div class="an">รีเซต Traffic</div><div class="ad">เคลียร์ยอดใช้</div></div>
+      <div class="abtn danger" onclick="mAction('delete')"><div class="ai">🗑️</div><div class="an">ลบยูส</div><div class="ad">ลบถาวร</div></div>
+    </div>
+
+    <!-- SUB-PANEL: ต่ออายุ -->
+    <div class="m-sub" id="msub-renew">
+      <div class="msub-lbl">🔄 ต่ออายุ — รีเซตจากวันนี้</div>
+      <div class="fg"><div class="flbl">จำนวนวัน</div><input class="fi" id="m-renew-days" type="number" value="30" min="1"></div>
+      <button class="cbtn" id="m-renew-btn" onclick="doRenewUser()">✅ ยืนยันต่ออายุ</button>
+    </div>
+
+    <!-- SUB-PANEL: เพิ่มวัน -->
+    <div class="m-sub" id="msub-extend">
+      <div class="msub-lbl">📅 เพิ่มวัน — ต่อจากวันหมด</div>
+      <div class="fg"><div class="flbl">จำนวนวันที่ต้องการเพิ่ม</div><input class="fi" id="m-extend-days" type="number" value="30" min="1"></div>
+      <button class="cbtn" id="m-extend-btn" onclick="doExtendUser()">✅ ยืนยันเพิ่มวัน</button>
+    </div>
+
+    <!-- SUB-PANEL: เพิ่ม Data -->
+    <div class="m-sub" id="msub-adddata">
+      <div class="msub-lbl">📦 เพิ่ม Data — เติม GB เพิ่มจากที่มีอยู่</div>
+      <div class="fg"><div class="flbl">จำนวน GB ที่ต้องการเพิ่ม</div><input class="fi" id="m-adddata-gb" type="number" value="10" min="1"></div>
+      <button class="cbtn" id="m-adddata-btn" onclick="doAddData()">✅ ยืนยันเพิ่ม Data</button>
+    </div>
+
+    <!-- SUB-PANEL: ตั้ง Data -->
+    <div class="m-sub" id="msub-setdata">
+      <div class="msub-lbl">⚖️ ตั้ง Data — กำหนด Limit ใหม่ (0 = ไม่จำกัด)</div>
+      <div class="fg"><div class="flbl">Data Limit (GB) — 0 = ไม่จำกัด</div><input class="fi" id="m-setdata-gb" type="number" value="0" min="0"></div>
+      <button class="cbtn" id="m-setdata-btn" onclick="doSetData()">✅ ยืนยันตั้ง Data</button>
+    </div>
+
+    <!-- SUB-PANEL: รีเซต Traffic -->
+    <div class="m-sub" id="msub-reset">
+      <div class="msub-lbl">🔃 รีเซต Traffic — เคลียร์ยอดใช้ทั้งหมด</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:12px">การรีเซต Traffic จะเคลียร์ยอด Upload/Download ทั้งหมดของยูสนี้</div>
+      <button class="cbtn" id="m-reset-btn" onclick="doResetTraffic()">✅ ยืนยันรีเซต Traffic</button>
+    </div>
+
+    <!-- SUB-PANEL: ลบยูส -->
+    <div class="m-sub" id="msub-delete">
+      <div class="msub-lbl" style="color:#ef4444">🗑️ ลบยูส — ลบถาวร ไม่สามารถกู้คืนได้</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:12px">ยูส <b id="m-del-name" style="color:#ef4444"></b> จะถูกลบออกจากระบบถาวร</div>
+      <button class="cbtn" id="m-delete-btn" onclick="doDeleteUser()" style="background:linear-gradient(135deg,#dc2626,#ef4444)">🗑️ ยืนยันลบยูส</button>
+    </div>
+
+    <div class="alert" id="modal-alert" style="margin-top:10px"></div>
+  </div>
+</div>
+
+<script src="config.js" onerror="window.CHAIYA_CONFIG={}"></script>
+<script>
+// ════ CONFIG ════
+const CFG = (typeof window.CHAIYA_CONFIG !== 'undefined') ? window.CHAIYA_CONFIG : {};
+const HOST = CFG.host || location.hostname;
+const XUI  = '/xui-api';          // x-ui API โดยตรง ไม่ผ่าน middleware
+const API  = '/api';               // chaiya-ssh-api (SSH users เท่านั้น)
+const SESSION_KEY = 'chaiya_auth';
+
+// ── Direct x-ui API helpers ──────────────────────────────
+let _xuiCookie = false;
+async function xuiEnsureLogin() {
+  if (_xuiCookie) return true;
+  const _s = (() => { try { return JSON.parse(sessionStorage.getItem(SESSION_KEY)||'{}'); } catch(e){return{};} })();
+  const form = new URLSearchParams({ username: _s.user||CFG.xui_user||'', password: _s.pass||CFG.xui_pass||'' });
+  const r = await fetch(XUI+'/login', {
+    method:'POST', credentials:'include',
+    headers:{'Content-Type':'application/x-www-form-urlencoded'},
+    body: form.toString()
+  });
+  const d = await r.json();
+  _xuiCookie = !!d.success;
+  return _xuiCookie;
+}
+async function xuiGet(path) {
+  if (!_xuiCookie) await xuiEnsureLogin();
+  const r = await fetch(XUI+path, {credentials:'include'});
+  return r.json();
+}
+async function xuiPost(path, body) {
+  if (!_xuiCookie) await xuiEnsureLogin();
+  const r = await fetch(XUI+path, {
+    method:'POST', credentials:'include',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(body)
+  });
+  return r.json();
+}
+
+// Session check
+const _s = (() => { try { return JSON.parse(sessionStorage.getItem(SESSION_KEY)||'{}'); } catch(e){return{};} })();
+if (!_s.user || !_s.pass || Date.now() >= (_s.exp||0)) {
+  sessionStorage.removeItem(SESSION_KEY);
+  location.replace('index.html');
+}
+
+// Header domain
+document.getElementById('hdr-domain').textContent = HOST + ' · v5';
+
+// ════ UTILS ════
+function fmtBytes(b) {
+  if (!b || b === 0) return '0 B';
+  const k = 1024, u = ['B','KB','MB','GB','TB'];
+  const i = Math.floor(Math.log(b)/Math.log(k));
+  return (b/Math.pow(k,i)).toFixed(1)+' '+u[i];
+}
+function fmtDate(ms) {
+  if (!ms || ms === 0) return 'ไม่จำกัด';
+  const d = new Date(ms);
+  return d.toLocaleDateString('th-TH',{year:'numeric',month:'short',day:'numeric'});
+}
+function daysLeft(ms) {
+  if (!ms || ms === 0) return null;
+  return Math.ceil((ms - Date.now()) / 86400000);
+}
+function setRing(id, pct) {
+  const circ = 138.2;
+  const el = document.getElementById(id);
+  if (el) el.style.strokeDashoffset = circ - (circ * Math.min(pct,100) / 100);
+}
+function setBar(id, pct, warn=false) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.style.width = Math.min(pct,100) + '%';
+  if (warn && pct > 85) el.style.background = 'linear-gradient(90deg,#ef4444,#dc2626)';
+  else if (warn && pct > 65) el.style.background = 'linear-gradient(90deg,#f97316,#fb923c)';
+}
+function showAlert(id, msg, type) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.className = 'alert '+type;
+  el.textContent = msg;
+  el.style.display = 'block';
+  if (type === 'ok') setTimeout(()=>{el.style.display='none';}, 3000);
+}
+
+// ════ NAV ════
+function sw(name, el) {
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  el.classList.add('active');
+  if (name==='create') closeForm();
+  if (name==='dashboard') loadDash();
+  if (name==='manage') loadUsers();
+  if (name==='online') loadOnline();
+  if (name==='ban') loadSSHUsers();
+  if (name==='speed') { setGauge(0); }
+}
+
+// ── Form nav ──
+let _curForm = null;
+function openForm(id) {
+  document.getElementById('create-menu').style.display = 'none';
+  ['ais','true','ssh'].forEach(f => {
+    document.getElementById('form-'+f).style.display = f===id ? 'block' : 'none';
+  });
+  _curForm = id;
+  if (id==='ssh') loadSSHTableInForm();
+  window.scrollTo(0,0);
+}
+function closeForm() {
+  document.getElementById('create-menu').style.display = 'block';
+  ['ais','true','ssh'].forEach(f => {
+    document.getElementById('form-'+f).style.display = 'none';
+  });
+  _curForm = null;
+}
+
+let _wsPort = '80';
+function togPort(btn, port) {
+  _wsPort = port;
+  document.getElementById('ws80-btn').classList.toggle('active', port==='80');
+  document.getElementById('ws443-btn').classList.toggle('active', port==='443');
+}
+function togGroup(btn, cls) {
+  btn.closest('div').querySelectorAll(cls).forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// (xuiGet/xuiPost defined above)
+
+// ════ DASHBOARD ════
+async function loadDash() {
+  const btn = document.getElementById('btn-refresh');
+  if (btn) btn.textContent = '↻ ...';
+  _xuiCookie = false; // force re-login เสมอ
+
+  try {
+    // ══ 1) ดึง Server Status จาก 3x-ui โดยตรง ══
+    await xuiEnsureLogin();
+    const sv = await fetch(XUI+'/panel/api/server/status', {
+      credentials: 'include'
+    }).then(r=>r.json()).catch(()=>null);
+
+    if (sv && sv.success && sv.obj) {
+      const o = sv.obj;
+
+      // CPU
+      const cpu = Math.round(o.cpu || 0);
+      document.getElementById('cpu-pct').textContent = cpu + '%';
+      document.getElementById('cpu-cores').textContent = (o.cpuCores || o.logicalPro || '--') + ' cores';
+      setRing('cpu-ring', cpu); setBar('cpu-bar', cpu, true);
+
+      // RAM
+      const ramT = ((o.mem?.total||0)/1073741824), ramU = ((o.mem?.current||0)/1073741824);
+      const ramP = ramT > 0 ? Math.round(ramU/ramT*100) : 0;
+      document.getElementById('ram-pct').textContent = ramP + '%';
+      document.getElementById('ram-detail').textContent = ramU.toFixed(1)+' / '+ramT.toFixed(1)+' GB';
+      setRing('ram-ring', ramP); setBar('ram-bar', ramP, true);
+
+      // Disk
+      const dskT = ((o.disk?.total||0)/1073741824), dskU = ((o.disk?.current||0)/1073741824);
+      const dskP = dskT > 0 ? Math.round(dskU/dskT*100) : 0;
+      document.getElementById('disk-pct').innerHTML = dskP + '<span>%</span>';
+      document.getElementById('disk-detail').textContent = dskU.toFixed(0)+' / '+dskT.toFixed(0)+' GB';
+      setBar('disk-bar', dskP, true);
+
+      // Uptime
+      const up = o.uptime || 0;
+      const ud = Math.floor(up/86400), uh = Math.floor((up%86400)/3600), um = Math.floor((up%3600)/60);
+      document.getElementById('uptime-val').textContent = ud > 0 ? ud+'d '+uh+'h' : uh+'h '+um+'m';
+      document.getElementById('uptime-sub').textContent = ud+'วัน '+uh+'ชม. '+um+'นาที';
+      const loads = o.loads || [];
+      document.getElementById('load-chips').innerHTML = loads.map((l,i)=>
+        `<span class="bdg">${['1m','5m','15m'][i]}: ${l.toFixed(2)}</span>`).join('');
+
+      // Network I/O (realtime speed)
+      if (o.netIO) {
+        const up_b = o.netIO.up||0, dn_b = o.netIO.down||0;
+        const upFmt = fmtBytes(up_b), dnFmt = fmtBytes(dn_b);
+        document.getElementById('net-up').innerHTML = upFmt.replace(' ','<span> ')+'</span>';
+        document.getElementById('net-dn').innerHTML = dnFmt.replace(' ','<span> ')+'</span>';
+      }
+      if (o.netTraffic) {
+        document.getElementById('net-up-total').textContent = 'total: '+fmtBytes(o.netTraffic.sent||0);
+        document.getElementById('net-dn-total').textContent = 'total: '+fmtBytes(o.netTraffic.recv||0);
+      }
+
+      // XUI Xray version
+      document.getElementById('xui-ver').textContent = o.xrayVersion || '--';
+      document.getElementById('xui-pill').innerHTML = '<span class="dot"></span>ออนไลน์';
+      document.getElementById('xui-pill').className = 'opill';
+    } else {
+      // 3x-ui ไม่ตอบสนอง
+      document.getElementById('xui-pill').innerHTML = '<span class="dot red"></span>ออฟไลน์';
+      document.getElementById('xui-pill').className = 'opill off';
+    }
+
+    // ══ 2) ดึง Inbounds count จาก 3x-ui ══
+    const ibl = await xuiGet('/panel/api/inbounds/list').catch(()=>null);
+    if (ibl && ibl.success) {
+      document.getElementById('xui-inbounds').textContent = (ibl.obj||[]).length;
+    }
+
+    // ══ 3) ดึง Service Status จาก SSH API (สำหรับ dropbear/nginx/badvpn ที่ 3x-ui ไม่รู้) ══
+    const st = await fetch(API+'/status').then(r=>r.json()).catch(()=>null);
+    if (st) {
+      renderServices(st.services || {});
+    }
+
+    document.getElementById('last-update').textContent = 'อัพเดทล่าสุด: ' + new Date().toLocaleTimeString('th-TH');
+  } catch(e) {
+    console.error(e);
+  } finally {
+    if (btn) btn.textContent = '↻ รีเฟรช';
+  }
+}
+
+
+// ════ SERVICES ════
+const SVC_DEF = [
+  { key:'xui',      icon:'📡', name:'x-ui Panel',      port:':2053' },
+  { key:'ssh',      icon:'🐍', name:'SSH API',          port:':6789' },
+  { key:'dropbear', icon:'🐻', name:'Dropbear SSH',     port:':143 :109' },
+  { key:'nginx',    icon:'🌐', name:'nginx / Panel',    port:':80 :443' },
+  { key:'sshws',    icon:'🔒', name:'WS-Stunnel',       port:':80→:143' },
+  { key:'badvpn',   icon:'🎮', name:'BadVPN UDPGW',     port:':7300' },
+];
+function renderServices(map) {
+  document.getElementById('svc-list').innerHTML = SVC_DEF.map(s => {
+    const up = map[s.key] === true || map[s.key] === 'active';
+    return `<div class="svc ${up?'':'down'}">
+      <div class="svc-l"><span class="dg ${up?'':'red'}"></span><span>${s.icon}</span>
+        <div><div class="svc-n">${s.name}</div><div class="svc-p">${s.port}</div></div>
+      </div>
+      <span class="rbdg ${up?'':'down'}">${up?'RUNNING':'DOWN'}</span>
+    </div>`;
+  }).join('');
+}
+async function loadServices() {
+  try {
+    const st = await fetch(API+'/status').then(r=>r.json());
+    renderServices(st.services || {});
+  } catch(e) {
+    document.getElementById('svc-list').innerHTML = '<div class="loading" style="color:#ef4444">เชื่อมต่อ API ไม่ได้</div>';
+  }
+}
+
+// ════ SSH PICKER STATE ════
+const PROS = {
+  dtac: {
+    name: 'DTAC GAMING',
+    proxy: '104.18.63.124:80',
+    payload: 'CONNECT /  HTTP/1.1 [crlf]Host: dl.dir.freefiremobile.com [crlf][crlf]PATCH / HTTP/1.1[crlf]Host:[host][crlf]Upgrade:User-Agent: [ua][crlf][crlf]',
+    darkProxy: 'truevipanline.godvpn.shop', darkProxyPort: 80
+  },
+  true: {
+    name: 'TRUE TWITTER',
+    proxy: '104.18.39.24:80',
+    payload: 'POST / HTTP/1.1[crlf]Host:help.x.com[crlf]User-Agent: [ua][crlf][crlf][split][cr]PATCH / HTTP/1.1[crlf]Host: [host][crlf]Upgrade: websocket[crlf]Connection:Upgrade[crlf][crlf]',
+    darkProxy: 'truevipanline.godvpn.shop', darkProxyPort: 80
+  }
+  ais: {
+    name: 'AIS NOPRO',
+    proxy: 'topup.ais.co.th:80',
+    payload: 'POST / HTTP/1.1[crlf]Host:topup.ais.co.th[crlf]X-Online-Host:help.x.com[crlf]X-Forward-Host:topup.ais.co.th[crlf]User-Agent: [ua][crlf]Connection: keep-alive[crlf][crlf][split][cr]PATCH / HTTP/1.1[crlf]Host: [host][crlf]Upgrade: websocket[crlf]Connection: Upgrade[crlf]X-Online-Host: [host][crlf][crlf]',
+    darkProxy: 'topup.ais.co.th', darkProxyPort: 80
+  }
+};
+const NPV_HOST = 'www.project.godvpn.shop', NPV_PORT = 80;
+let _sshPro = 'dtac', _sshApp = 'npv', _sshPort = '80';
+
+function pickPort(p) {
+  _sshPort = p;
+  document.getElementById('pb-80').className  = 'port-btn' + (p==='80'  ? ' active-p80'  : '');
+  document.getElementById('pb-443').className = 'port-btn' + (p==='443' ? ' active-p443' : '');
+}
+function pickPro(p) {
+  _sshPro = p;
+  document.getElementById('pro-dtac').className = 'pick-opt' + (p==='dtac' ? ' a-dtac' : '');
+  document.getElementById('pro-true').className = 'pick-opt' + (p==='true' ? ' a-true' : '');
+    document.getElementById('pro-ais').className = 'pick-opt' + (p==='ais' ? ' a-ais' : '');
+}
+function pickApp(a) {
+  _sshApp = a;
+  document.getElementById('app-npv').className  = 'pick-opt' + (a==='npv'  ? ' a-npv'  : '');
+  document.getElementById('app-dark').className = 'pick-opt' + (a==='dark' ? ' a-dark' : '');
+}
+function buildNpvLink(name, pass, pro) {
+  const j = {
+    sshConfigType:'SSH-Proxy-Payload', remarks:pro.name+'-'+name,
+    sshHost:NPV_HOST, sshPort:NPV_PORT,
+    sshUsername:name, sshPassword:pass,
+    sni:'', tlsVersion:'DEFAULT',
+    httpProxy:pro.proxy, authenticateProxy:false,
+    proxyUsername:'', proxyPassword:'',
+    payload:pro.payload,
+    dnsMode:'UDP', dnsServer:'', nameserver:'', publicKey:'',
+    udpgwPort:7300, udpgwTransparentDNS:true
+  };
+  return 'npvt-ssh://' + btoa(unescape(encodeURIComponent(JSON.stringify(j))));
+}
+function buildDarkLink(name, pass, pro) {
+  const pp = (pro.proxy||'').split(':');
+  const dh = pp[0] || pro.darkProxy;
+  const j = {
+    configType:'SSH-PROXY', remarks:pro.name+'-'+name,
+    sshHost:HOST, sshPort:143,
+    sshUser:name, sshPass:pass,
+    payload:'GET / HTTP/1.1\r\nHost: '+HOST+'\r\nUpgrade: websocket\r\nConnection: Upgrade\r\n\r\n',
+    proxyHost:dh, proxyPort:80,
+    udpgwAddr:'127.0.0.1', udpgwPort:7300, tlsEnabled:false
+  };
+  return 'darktunnel-ssh://' + btoa(unescape(encodeURIComponent(JSON.stringify(j))));
+}
+
+// ════ CREATE SSH ════
+async function createSSH() {
+  const user = document.getElementById('ssh-user').value.trim();
+  const pass = document.getElementById('ssh-pass').value.trim();
+  const days = parseInt(document.getElementById('ssh-days').value)||30;
+  const ipl  = parseInt(document.getElementById('ssh-ip') ? document.getElementById('ssh-ip').value : 2)||2;
+  if (!user) return showAlert('ssh-alert','กรุณาใส่ Username','err');
+  if (!pass) return showAlert('ssh-alert','กรุณาใส่ Password','err');
+  const btn = document.getElementById('ssh-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spin" style="border-color:rgba(34,197,94,.3);border-top-color:#22c55e"></span>กำลังสร้าง...';
+  document.getElementById('ssh-alert').style.display='none';
+  const resEl = document.getElementById('ssh-link-result');
+  if (resEl) resEl.className='link-result';
+  try {
+    const r = await fetch(API+'/create_ssh', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({user, password:pass, days, ip_limit:ipl})
+    });
+    const d = await r.json();
+    if (!d.ok) throw new Error(d.error || 'สร้างไม่สำเร็จ');
+
+    const pro  = PROS[_sshPro] || PROS.dtac;
+    const link = _sshApp==='npv' ? buildNpvLink(user,pass,pro) : buildDarkLink(user,pass,pro);
+    const isNpv = _sshApp==='npv';
+    const lpCls = isNpv ? '' : ' dark-lp';
+    const cCls  = isNpv ? 'npv' : 'dark';
+    const appLabel = isNpv ? 'Npvt' : 'DarkTunnel';
+
+    if (resEl) {
+      resEl.className = 'link-result show';
+      const safeLink = link.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+      resEl.innerHTML =
+        "<div class='link-result-hdr'>" +
+          "<span class='imp-badge "+cCls+"'>"+appLabel+"</span>" +
+          "<span style='font-size:.65rem;color:var(--muted)'>"+pro.name+" \xb7 Port "+_sshPort+"</span>" +
+          "<span style='font-size:.65rem;color:#22c55e;margin-left:auto'>\u2705 "+user+"</span>" +
+        "</div>" +
+        "<div class='link-preview"+lpCls+"'>"+link+"</div>" +
+        "<button class='copy-link-btn "+cCls+"' id='copy-ssh-btn' onclick=\"copySSHLink()\">"+
+          "\ud83d\udccb Copy "+appLabel+" Link"+
+        "</button>";
+      window._lastSSHLink = link;
+      window._lastSSHApp  = cCls;
+      window._lastSSHLabel = appLabel;
+    }
+
+    showAlert('ssh-alert','✅ สร้าง '+user+' สำเร็จ · หมดอายุ '+d.exp,'ok');
+    document.getElementById('ssh-user').value='';
+    document.getElementById('ssh-pass').value='';
+    loadSSHTableInForm();
+  } catch(e) { showAlert('ssh-alert','\u274c '+e.message,'err'); }
+  finally { btn.disabled=false; btn.innerHTML='➕ สร้าง User'; }
+}
+function copySSHLink() {
+  const link = window._lastSSHLink||'';
+  const cCls = window._lastSSHApp||'npv';
+  const label = window._lastSSHLabel||'Link';
+  navigator.clipboard.writeText(link).then(function(){
+    const b = document.getElementById('copy-ssh-btn');
+    if(b){ b.textContent='\u2705 คัดลอกแล้ว!'; setTimeout(function(){b.textContent='\ud83d\udccb Copy '+label+' Link';},2000); }
+  }).catch(function(){ prompt('Copy link:',link); });
+}
+
+// SSH user table
+let _sshTableUsers = [];
+async function loadSSHTableInForm() {
+  try {
+    const d = await fetch(API+'/users').then(r=>r.json());
+    _sshTableUsers = d.users || [];
+    renderSSHTable(_sshTableUsers);
+  } catch(e) {
+    const tb = document.getElementById('ssh-user-tbody');
+    if(tb) tb.innerHTML='<tr><td colspan="5" style="text-align:center;color:#ef4444;padding:16px">เชื่อมต่อ SSH API ไม่ได้</td></tr>';
+  }
+}
+function renderSSHTable(users) {
+  const tb = document.getElementById('ssh-user-tbody');
+  if (!tb) return;
+  if (!users.length) {
+    tb.innerHTML='<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:20px">ไม่มี SSH users</td></tr>';
+    return;
+  }
+  const now = new Date().toISOString().slice(0,10);
+  tb.innerHTML = users.map(function(u,i){
+    const expired = u.exp && u.exp < now;
+    const active  = u.active !== false && !expired;
+    const dLeft   = u.exp ? Math.ceil((new Date(u.exp)-Date.now())/86400000) : null;
+    const badge   = active
+      ? '<span class="bdg bdg-g">ACTIVE</span>'
+      : '<span class="bdg bdg-r">EXPIRED</span>';
+    const dTag = dLeft!==null
+      ? '<span class="days-badge">'+(dLeft>0?dLeft+'d':'หมด')+'</span>'
+      : '<span class="days-badge">\u221e</span>';
+    return '<tr><td style="color:var(--muted)">'+(i+1)+'</td>' +
+      '<td><b>'+u.user+'</b></td>' +
+      '<td style="font-size:11px;color:'+(expired?'#ef4444':'var(--muted)')+'">'+
+        (u.exp||'ไม่จำกัด')+'</td>' +
+      '<td>'+badge+'</td>' +
+      '<td><div style="display:flex;gap:4px;align-items:center">'+
+        '<button class="btn-tbl" title="ต่ออายุ" onclick="openSSHRenewModal(\''+u.user+'\')">🔄</button>'+
+        '<button class="btn-tbl" title="ลบ" onclick="delSSHUser(\''+u.user+'\')" style="border-color:rgba(239,68,68,.3)">🗑️</button>'+
+        dTag+
+      '</div></td></tr>';
+  }).join('');
+}
+function filterSSHUsers(q) {
+  renderSSHTable(_sshTableUsers.filter(function(u){return (u.user||'').toLowerCase().includes(q.toLowerCase());}));
+}
+// SSH Renew Modal
+let _renewSSHUser = '';
+function openSSHRenewModal(user) {
+  _renewSSHUser = user;
+  document.getElementById('ssh-renew-username').textContent = user;
+  document.getElementById('ssh-renew-days').value = '30';
+  document.getElementById('ssh-renew-modal').classList.add('open');
+}
+function closeSSHRenewModal() {
+  document.getElementById('ssh-renew-modal').classList.remove('open');
+  _renewSSHUser = '';
+}
+async function doSSHRenew() {
+  const days = parseInt(document.getElementById('ssh-renew-days').value)||0;
+  if (!days||days<=0) return;
+  const btn = document.getElementById('ssh-renew-btn');
+  btn.disabled = true; btn.textContent = 'กำลังต่ออายุ...';
+  try {
+    const r = await fetch(API+'/extend_ssh',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({user:_renewSSHUser,days})
+    }).then(function(r){return r.json();});
+    if (!r.ok) throw new Error(r.error||'ไม่สำเร็จ');
+    showAlert('ssh-alert','\u2705 ต่ออายุ '+_renewSSHUser+' +'+days+' วัน สำเร็จ','ok');
+    closeSSHRenewModal();
+    loadSSHTableInForm();
+  } catch(e) {
+    showAlert('ssh-alert','\u274c '+e.message,'err');
+  } finally {
+    btn.disabled = false; btn.textContent = '✅ ยืนยันต่ออายุ';
+  }
+}
+async function renewSSHUser(user) { openSSHRenewModal(user); }
+async function delSSHUser(user) {
+  if (!confirm('ลบ SSH user "'+user+'" ถาวร?')) return;
+  try {
+    const r = await fetch(API+'/delete_ssh',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({user})
+    }).then(function(r){return r.json();});
+    if (!r.ok) throw new Error(r.error||'ไม่สำเร็จ');
+    showAlert('ssh-alert','\u2705 ลบ '+user+' สำเร็จ','ok');
+    loadSSHTableInForm();
+  } catch(e) { alert('\u274c '+e.message); }
+}
+// ════ CREATE VLESS ════
+function genUUID() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{
+    const r=Math.random()*16|0; return (c==='x'?r:(r&0x3|0x8)).toString(16);
+  });
+}
+async function createVLESS(carrier) {
+  const emailEl = document.getElementById(carrier+'-email');
+  const daysEl  = document.getElementById(carrier+'-days');
+  const ipEl    = document.getElementById(carrier+'-ip');
+  const gbEl    = document.getElementById(carrier+'-gb');
+  const email   = emailEl.value.trim();
+  const days    = parseInt(daysEl.value)||30;
+  const ipLimit = parseInt(ipEl.value)||2;
+  const gb      = parseInt(gbEl.value)||0;
+  if (!email) return showAlert(carrier+'-alert','กรุณาใส่ Email/Username','err');
+
+  const port = carrier==='ais' ? 8080 : 8880;
+  const sni  = carrier==='ais' ? 'cj-ebb.speedtest.net' : 'true-internet.zoom.xyz.services';
+
+  const btn = document.getElementById(carrier+'-btn');
+  btn.disabled=true; btn.innerHTML='<span class="spin"></span>กำลังสร้าง...';
+  document.getElementById(carrier+'-alert').style.display='none';
+  document.getElementById(carrier+'-result').classList.remove('show');
+
+  try {
+    if (!_xuiCookie) await xuiEnsureLogin();
+    // หา inbound id
+    const list = await xuiGet('/panel/api/inbounds/list');
+    const ib = (list.obj||[]).find(x=>x.port===port);
+    if (!ib) throw new Error(`ไม่พบ inbound port ${port} — รัน setup ก่อน`);
+
+    const uid = genUUID();
+    const expMs = days > 0 ? (Date.now() + days*86400000) : 0;
+    const totalBytes = gb > 0 ? gb*1073741824 : 0;
+
+    const res = await xuiPost('/panel/api/inbounds/addClient', {
+      id: ib.id,
+      settings: JSON.stringify({ clients:[{
+        id:uid, flow:'', email, limitIp:ipLimit,
+        totalGB:totalBytes, expiryTime:expMs, enable:true, tgId:'', subId:'', comment:'', reset:0
+      }]})
+    });
+    if (!res.success) throw new Error(res.msg || 'สร้างไม่สำเร็จ');
+
+    const link = `vless://${uid}@${HOST}:${port}?encryption=none&flow=none&type=ws&host=${sni}&headerType=none&path=%2Fvless&security=none#${encodeURIComponent(email+'-'+(carrier==='ais'?'AIS':'TRUE'))}`;
+
+    document.getElementById('r-'+carrier+'-email').textContent = email;
+    document.getElementById('r-'+carrier+'-uuid').textContent = uid;
+    document.getElementById('r-'+carrier+'-exp').textContent = expMs > 0 ? fmtDate(expMs) : 'ไม่จำกัด';
+    document.getElementById('r-'+carrier+'-link').textContent = link;
+    document.getElementById(carrier+'-result').classList.add('show');
+    // Generate QR code
+    const qrDiv = document.getElementById(carrier+'-qr');
+    if (qrDiv) {
+      qrDiv.innerHTML = '';
+      try {
+        new QRCode(qrDiv, { text: link, width: 180, height: 180, correctLevel: QRCode.CorrectLevel.M });
+      } catch(qrErr) { qrDiv.innerHTML = ''; }
+    }
+    showAlert(carrier+'-alert','✅ สร้าง VLESS Account สำเร็จ','ok');
+    emailEl.value='';
+  } catch(e) { showAlert(carrier+'-alert','❌ '+e.message,'err'); }
+  finally { btn.disabled=false; btn.innerHTML='⚡ สร้าง '+(carrier==='ais'?'AIS':'TRUE')+' Account'; }
+}
+
+// ════ MANAGE USERS ════
+let _allUsers = [], _curUser = null;
+async function loadUsers() {
+  document.getElementById('user-list').innerHTML = '<div class="loading">กำลังโหลด...</div>';
+  try {
+    _xuiCookie = false;
+    await xuiEnsureLogin();
+    const d = await xuiGet('/panel/api/inbounds/list');
+    if (!d.success) throw new Error(d.msg || 'โหลด inbounds ไม่ได้');
+    _allUsers = [];
+    (d.obj||[]).forEach(ib => {
+      const settings = typeof ib.settings==='string' ? JSON.parse(ib.settings) : ib.settings;
+      (settings.clients||[]).forEach(c => {
+        _allUsers.push({
+          ibId: ib.id, port: ib.port, proto: ib.protocol,
+          email: c.email||c.id, uuid: c.id,
+          exp: c.expiryTime||0, total: c.totalGB||0,
+          up: ib.up||0, down: ib.down||0, limitIp: c.limitIp||0
+        });
+      });
+    });
+    renderUsers(_allUsers);
+  } catch(e) {
+    document.getElementById('user-list').innerHTML = '<div class="loading" style="color:#ef4444">'+e.message+'</div>';
+  }
+}
+function renderUsers(users) {
+  if (!users.length) { document.getElementById('user-list').innerHTML='<div class="oe"><div class="ei">📭</div><p>ไม่พบยูสเซอร์</p></div>'; return; }
+  const now = Date.now();
+  document.getElementById('user-list').innerHTML = users.map(u => {
+    const dl = daysLeft(u.exp);
+    let badge, cls;
+    if (!u.exp || u.exp===0) { badge='✓ ไม่จำกัด'; cls='ok'; }
+    else if (dl < 0)         { badge='หมดอายุ'; cls='exp'; }
+    else if (dl <= 3)        { badge='⚠ '+dl+'d'; cls='soon'; }
+    else                     { badge='✓ '+dl+'d'; cls='ok'; }
+    const avCls = dl < 0 ? 'av-x' : 'av-g';
+    return `<div class="uitem" onclick="openUser(${JSON.stringify(u).replace(/"/g,'&quot;')})">
+      <div class="uav ${avCls}">${(u.email||'?')[0].toUpperCase()}</div>
+      <div style="flex:1">
+        <div class="un">${u.email}</div>
+        <div class="um">Port ${u.port} · ${fmtBytes(u.up+u.down)} ใช้</div>
+      </div>
+      <span class="abdg ${cls}">${badge}</span>
+    </div>`;
+  }).join('');
+}
+function filterUsers(q) {
+  renderUsers(_allUsers.filter(u=>(u.email||'').toLowerCase().includes(q.toLowerCase())));
+}
+
+// ════ MODAL USER ════
+function openUser(u) {
+  if (typeof u === 'string') u = JSON.parse(u);
+  _curUser = u;
+  document.getElementById('mt').textContent = '⚙️ '+u.email;
+  document.getElementById('du').textContent = u.email;
+  document.getElementById('dp').textContent = u.port;
+  const dl = daysLeft(u.exp);
+  const expTxt = !u.exp||u.exp===0 ? 'ไม่จำกัด' : fmtDate(u.exp);
+  const de = document.getElementById('de');
+  de.textContent = expTxt;
+  de.className = 'dv' + (dl !== null && dl < 0 ? ' red' : ' green');
+  document.getElementById('dd').textContent = u.total > 0 ? fmtBytes(u.total) : 'ไม่จำกัด';
+  document.getElementById('dtr').textContent = fmtBytes(u.up+u.down);
+  document.getElementById('di').textContent = u.limitIp || '∞';
+  document.getElementById('duu').textContent = u.uuid;
+  document.getElementById('modal-alert').style.display='none';
+  document.getElementById('modal').classList.add('open');
+}
+function cm(){
+  document.getElementById('modal').classList.remove('open');
+  _mSubs.forEach(k => document.getElementById('msub-'+k).classList.remove('open'));
+  document.querySelectorAll('.abtn').forEach(b => b.classList.remove('active'));
+}
+
+// ── MODAL 6-ACTION SYSTEM ───────────────────────────────
+const _mSubs = ['renew','extend','adddata','setdata','reset','delete'];
+function mAction(key) {
+  const el = document.getElementById('msub-'+key);
+  const isOpen = el.classList.contains('open');
+  _mSubs.forEach(k => document.getElementById('msub-'+k).classList.remove('open'));
+  document.querySelectorAll('.abtn').forEach(b => b.classList.remove('active'));
+  document.getElementById('modal-alert').style.display='none';
+  if (!isOpen) {
+    el.classList.add('open');
+    if (key==='delete' && _curUser) document.getElementById('m-del-name').textContent = _curUser.email;
+    setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'nearest'}),100);
+  }
+}
+function _mBtnLoad(id, loading, origText) {
+  const b = document.getElementById(id);
+  if (!b) return;
+  b.disabled = loading;
+  if (loading) { b.dataset.orig = b.textContent; b.innerHTML = '<span class="spin"></span> กำลังดำเนินการ...'; }
+  else if (b.dataset.orig) b.textContent = b.dataset.orig;
+}
+
+async function doRenewUser() {
+  if (!_curUser) return;
+  const days = parseInt(document.getElementById('m-renew-days').value)||0;
+  if (days <= 0) return showAlert('modal-alert','กรุณากรอกจำนวนวัน','err');
+  _mBtnLoad('m-renew-btn', true);
+  try {
+    const expMs = Date.now() + days*86400000;
+    const res = await xuiPost('/panel/api/inbounds/updateClient/'+_curUser.uuid, {
+      id:_curUser.ibId,
+      settings:JSON.stringify({clients:[{id:_curUser.uuid,flow:'',email:_curUser.email,limitIp:_curUser.limitIp,totalGB:_curUser.total,expiryTime:expMs,enable:true,tgId:'',subId:'',comment:'',reset:0}]})
+    });
+    if (!res.success) throw new Error(res.msg||'ไม่สำเร็จ');
+    showAlert('modal-alert','✅ ต่ออายุสำเร็จ '+days+' วัน (รีเซตจากวันนี้)','ok');
+    setTimeout(()=>{ cm(); loadUsers(); }, 1800);
+  } catch(e) { showAlert('modal-alert','❌ '+e.message,'err'); }
+  finally { _mBtnLoad('m-renew-btn', false); }
+}
+
+async function doExtendUser() {
+  if (!_curUser) return;
+  const days = parseInt(document.getElementById('m-extend-days').value)||0;
+  if (days <= 0) return showAlert('modal-alert','กรุณากรอกจำนวนวัน','err');
+  _mBtnLoad('m-extend-btn', true);
+  try {
+    const base = (_curUser.exp && _curUser.exp > Date.now()) ? _curUser.exp : Date.now();
+    const expMs = base + days*86400000;
+    const res = await xuiPost('/panel/api/inbounds/updateClient/'+_curUser.uuid, {
+      id:_curUser.ibId,
+      settings:JSON.stringify({clients:[{id:_curUser.uuid,flow:'',email:_curUser.email,limitIp:_curUser.limitIp,totalGB:_curUser.total,expiryTime:expMs,enable:true,tgId:'',subId:'',comment:'',reset:0}]})
+    });
+    if (!res.success) throw new Error(res.msg||'ไม่สำเร็จ');
+    showAlert('modal-alert','✅ เพิ่ม '+days+' วัน สำเร็จ (ต่อจากวันหมด)','ok');
+    setTimeout(()=>{ cm(); loadUsers(); }, 1800);
+  } catch(e) { showAlert('modal-alert','❌ '+e.message,'err'); }
+  finally { _mBtnLoad('m-extend-btn', false); }
+}
+
+async function doAddData() {
+  if (!_curUser) return;
+  const addGb = parseFloat(document.getElementById('m-adddata-gb').value)||0;
+  if (addGb <= 0) return showAlert('modal-alert','กรุณากรอก GB ที่ต้องการเพิ่ม','err');
+  _mBtnLoad('m-adddata-btn', true);
+  try {
+    const newTotal = (_curUser.total||0) + addGb*1073741824;
+    const res = await xuiPost('/panel/api/inbounds/updateClient/'+_curUser.uuid, {
+      id:_curUser.ibId,
+      settings:JSON.stringify({clients:[{id:_curUser.uuid,flow:'',email:_curUser.email,limitIp:_curUser.limitIp,totalGB:newTotal,expiryTime:_curUser.exp||0,enable:true,tgId:'',subId:'',comment:'',reset:0}]})
+    });
+    if (!res.success) throw new Error(res.msg||'ไม่สำเร็จ');
+    showAlert('modal-alert','✅ เพิ่ม Data +'+addGb+' GB สำเร็จ','ok');
+    setTimeout(()=>{ cm(); loadUsers(); }, 1800);
+  } catch(e) { showAlert('modal-alert','❌ '+e.message,'err'); }
+  finally { _mBtnLoad('m-adddata-btn', false); }
+}
+
+async function doSetData() {
+  if (!_curUser) return;
+  const gb = parseFloat(document.getElementById('m-setdata-gb').value);
+  if (isNaN(gb)||gb<0) return showAlert('modal-alert','กรุณากรอก GB (0 = ไม่จำกัด)','err');
+  _mBtnLoad('m-setdata-btn', true);
+  try {
+    const totalBytes = gb > 0 ? gb*1073741824 : 0;
+    const res = await xuiPost('/panel/api/inbounds/updateClient/'+_curUser.uuid, {
+      id:_curUser.ibId,
+      settings:JSON.stringify({clients:[{id:_curUser.uuid,flow:'',email:_curUser.email,limitIp:_curUser.limitIp,totalGB:totalBytes,expiryTime:_curUser.exp||0,enable:true,tgId:'',subId:'',comment:'',reset:0}]})
+    });
+    if (!res.success) throw new Error(res.msg||'ไม่สำเร็จ');
+    showAlert('modal-alert','✅ ตั้ง Data Limit '+(gb>0?gb+' GB':'ไม่จำกัด')+' สำเร็จ','ok');
+    setTimeout(()=>{ cm(); loadUsers(); }, 1800);
+  } catch(e) { showAlert('modal-alert','❌ '+e.message,'err'); }
+  finally { _mBtnLoad('m-setdata-btn', false); }
+}
+
+async function doResetTraffic() {
+  if (!_curUser) return;
+  _mBtnLoad('m-reset-btn', true);
+  try {
+    const res = await xuiGet('/panel/api/inbounds/'+_curUser.ibId+'/resetClientTraffic/'+_curUser.email);
+    if (!res.success) throw new Error(res.msg||'ไม่สำเร็จ');
+    showAlert('modal-alert','✅ รีเซต Traffic สำเร็จ','ok');
+    setTimeout(()=>{ cm(); loadUsers(); }, 1500);
+  } catch(e) { showAlert('modal-alert','❌ '+e.message,'err'); }
+  finally { _mBtnLoad('m-reset-btn', false); }
+}
+
+async function doDeleteUser() {
+  if (!_curUser) return;
+  _mBtnLoad('m-delete-btn', true);
+  try {
+    const res = await xuiGet('/panel/api/inbounds/'+_curUser.ibId+'/delClient/'+_curUser.uuid);
+    if (!res.success) throw new Error(res.msg||'ไม่สำเร็จ');
+    showAlert('modal-alert','✅ ลบยูส '+_curUser.email+' สำเร็จ','ok');
+    setTimeout(()=>{ cm(); loadUsers(); }, 1200);
+  } catch(e) { showAlert('modal-alert','❌ '+e.message,'err'); }
+  finally { _mBtnLoad('m-delete-btn', false); }
+}
+
+// ════ ONLINE ════
+async function loadOnline() {
+  document.getElementById('online-list').innerHTML='<div class="loading">กำลังโหลด...</div>';
+  try {
+    _xuiCookie = false;
+    await xuiEnsureLogin();
+    // โหลด inbounds ถ้ายังไม่มี
+    if (!_allUsers.length) {
+      const d = await xuiGet('/panel/api/inbounds/list').catch(()=>null);
+      if (d && d.success) {
+        _allUsers = [];
+        (d.obj||[]).forEach(ib => {
+          const settings = typeof ib.settings==='string' ? JSON.parse(ib.settings) : ib.settings;
+          (settings.clients||[]).forEach(c => {
+            _allUsers.push({ ibId:ib.id, port:ib.port, proto:ib.protocol,
+              email:c.email||c.id, uuid:c.id, exp:c.expiryTime||0,
+              total:c.totalGB||0, up:ib.up||0, down:ib.down||0, limitIp:c.limitIp||0 });
+          });
+        });
+      }
+    }
+    const od = await xuiGet('/panel/api/inbounds/onlines').catch(()=>null);
+    // รองรับ format: {obj: [...]} หรือ {obj: null} หรือ {obj: {}}
+    let emails = [];
+    if (od && od.obj) {
+      if (Array.isArray(od.obj)) emails = od.obj;
+      else if (typeof od.obj === 'object') emails = Object.values(od.obj).flat().filter(e=>typeof e==='string');
+    }
+    document.getElementById('online-count').textContent = emails.length;
+    document.getElementById('online-time').textContent = new Date().toLocaleTimeString('th-TH');
+    if (!emails.length) {
+      document.getElementById('online-list').innerHTML='<div class="oe"><div class="ei">😴</div><p>ไม่มียูสออนไลน์ตอนนี้</p></div>';
+      return;
+    }
+    const uMap = {};
+    _allUsers.forEach(u=>{ uMap[u.email]=u; });
+    document.getElementById('online-list').innerHTML = emails.map(email=>{
+      const u = uMap[email];
+      return `<div class="uitem">
+        <div class="uav av-g">🟢</div>
+        <div style="flex:1">
+          <div class="un">${email}</div>
+          <div class="um">${u ? 'Port '+u.port : 'VLESS'} · ออนไลน์อยู่</div>
+        </div>
+        <span class="abdg ok">ONLINE</span>
+      </div>`;
+    }).join('');
+  } catch(e) {
+    document.getElementById('online-list').innerHTML='<div class="loading" style="color:#ef4444">'+e.message+'</div>';
+  }
+}
+
+// ════ SSH USERS (ban tab) ════
+async function loadSSHUsers() {
+  document.getElementById('ssh-user-list').innerHTML='<div class="loading">กำลังโหลด...</div>';
+  try {
+    const d = await fetch(API+'/users').then(r=>r.json());
+    const users = d.users || [];
+    if (!users.length) { document.getElementById('ssh-user-list').innerHTML='<div class="oe"><div class="ei">📭</div><p>ไม่มี SSH users</p></div>'; return; }
+    const now = new Date().toISOString().slice(0,10);
+    document.getElementById('ssh-user-list').innerHTML = users.map(u=>{
+      const exp = u.exp || 'ไม่จำกัด';
+      const active = u.active !== false;
+      return `<div class="uitem">
+        <div class="uav ${active?'av-g':'av-x'}">${u.user[0].toUpperCase()}</div>
+        <div style="flex:1">
+          <div class="un">${u.user}</div>
+          <div class="um">หมดอายุ: ${exp}</div>
+        </div>
+        <span class="abdg ${active?'ok':'exp'}">${active?'Active':'Expired'}</span>
+      </div>`;
+    }).join('');
+  } catch(e) {
+    document.getElementById('ssh-user-list').innerHTML='<div class="loading" style="color:#ef4444">'+e.message+'</div>';
+  }
+}
+async function deleteSSH() {
+  const user = document.getElementById('ban-user').value.trim();
+  if (!user) return showAlert('ban-alert','กรุณาใส่ Username','err');
+  if (!confirm('ลบ SSH user "'+user+'" ?')) return;
+  try {
+    const d = await fetch(API+'/delete_ssh',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({user})}).then(r=>r.json());
+    if (!d.ok) throw new Error(d.error||'ลบไม่สำเร็จ');
+    showAlert('ban-alert','✅ ลบ '+user+' สำเร็จ','ok');
+    document.getElementById('ban-user').value='';
+    loadSSHUsers();
+  } catch(e) { showAlert('ban-alert','❌ '+e.message,'err'); }
+}
+
+// ════ COPY ════
+function copyLink(id, btn) {
+  const txt = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(txt).then(()=>{
+    const orig = btn.textContent;
+    btn.textContent='✅ Copied!'; btn.style.background='rgba(34,197,94,.15)';
+    setTimeout(()=>{ btn.textContent=orig; btn.style.background=''; }, 2000);
+  }).catch(()=>{ prompt('Copy link:', txt); });
+}
+
+// ════ LOGOUT ════
+function doLogout() {
+  sessionStorage.removeItem(SESSION_KEY);
+  location.replace('index.html');
+}
+
+// ════ INIT ════
+
+// ══════════════════════════
+//  SPEED TEST
+// ══════════════════════════
+let _speedRunning=false;
+function setGauge(mbps, maxMbps=200) {
+  const el=document.getElementById('gauge-fill');
+  const valEl=document.getElementById('gauge-val');
+  const unitEl=document.getElementById('gauge-unit');
+  if (!el) return;
+  const pct=Math.min(mbps/maxMbps,1);
+  el.style.strokeDashoffset=(220-(220*pct)).toFixed(2);
+  const r=Math.round(pct<0.5?0:255*(pct-0.5)*2);
+  const g=Math.round(pct<0.5?255:255*(1-(pct-0.5)*2));
+  el.setAttribute('stroke',`rgb(${r},${g},50)`);
+  valEl.textContent=mbps>=1?mbps.toFixed(1):(mbps*1000).toFixed(0);
+  unitEl.textContent=mbps>=1?'Mbps':'Kbps';
+}
+function setProgress(pct) {
+  const el=document.getElementById('speed-prog-fill');
+  if (el) el.style.width=Math.min(pct,100)+'%';
+}
+async function measurePing() {
+  const pings=[];
+  for (let i=0;i<5;i++) {
+    const t0=performance.now();
+    try{await fetch(API+'/status',{method:'HEAD',cache:'no-store'});}
+    catch(e){try{await fetch('/',{method:'HEAD',cache:'no-store'});}catch(ee){}}
+    pings.push(performance.now()-t0);
+    await new Promise(r=>setTimeout(r,100));
+  }
+  pings.sort((a,b)=>a-b);
+  const ping=pings[Math.floor(pings.length/2)];
+  const jitter=pings[pings.length-1]-pings[0];
+  document.getElementById('ping-val').textContent=ping.toFixed(0)+' ms';
+  document.getElementById('jitter-val').textContent=jitter.toFixed(0)+' ms';
+  document.getElementById('loss-val').textContent='0%';
+  const pingEl=document.getElementById('ping-val');
+  pingEl.className='speed-ping-val'+(ping<80?'':ping<200?' warn':' bad');
+  return {ping,jitter};
+}
+async function startSpeedTest(type) {
+  if (_speedRunning) return;
+  _speedRunning=true;
+  const btnDl=document.getElementById('btn-dl');
+  const btnUl=document.getElementById('btn-ul');
+  btnDl.disabled=true; btnUl.disabled=true;
+  document.getElementById('speed-status').textContent='กำลังวัด Ping...';
+  setProgress(0); setGauge(0);
+  try{
+    const info=await fetch(API+'/status').then(r=>r.json()).catch(()=>null);
+    if(info&&info.host) document.getElementById('vps-ip').textContent=info.host;
+    else document.getElementById('vps-ip').textContent=location.hostname;
+  }catch(e){}
+  try{await measurePing();}catch(e){}
+  setProgress(10);
+  if (type==='download') {
+    document.getElementById('speed-status').textContent='กำลังทดสอบ Download...';
+    document.getElementById('dl-val').textContent='...';
+    const mbps=await runDownloadTest((p,cur)=>{
+      setProgress(10+p*0.8); setGauge(cur);
+      document.getElementById('dl-bar').style.width=Math.min(cur/200*100,100)+'%';
+    });
+    document.getElementById('dl-val').textContent=mbps.toFixed(1);
+    document.getElementById('dl-bar').style.width=Math.min(mbps/200*100,100)+'%';
+    setGauge(mbps);
+    document.getElementById('speed-status').textContent='✅ Download: '+mbps.toFixed(1)+' Mbps';
+  } else {
+    document.getElementById('speed-status').textContent='กำลังทดสอบ Upload...';
+    document.getElementById('ul-val').textContent='...';
+    const mbps=await runUploadTest((p,cur)=>{
+      setProgress(10+p*0.8); setGauge(cur);
+      document.getElementById('ul-bar').style.width=Math.min(cur/200*100,100)+'%';
+    });
+    document.getElementById('ul-val').textContent=mbps.toFixed(1);
+    document.getElementById('ul-bar').style.width=Math.min(mbps/200*100,100)+'%';
+    setGauge(mbps);
+    document.getElementById('speed-status').textContent='✅ Upload: '+mbps.toFixed(1)+' Mbps';
+  }
+  setProgress(100);
+  setTimeout(()=>setProgress(0),1500);
+  btnDl.disabled=false; btnUl.disabled=false;
+  _speedRunning=false;
+}
+async function runDownloadTest(onProgress) {
+  const DURATION_MS=8000;
+  let totalBytes=0;
+  const t0=performance.now();
+  let done=false;
+  setTimeout(()=>{done=true;},DURATION_MS);
+  const CHUNK=1*1024*1024;
+  const run=async()=>{
+    while(!done){
+      try{
+        const url='https://speed.cloudflare.com/__down?bytes='+CHUNK;
+        const r=await fetch(url,{cache:'no-store'}).catch(async()=>fetch(API+'/status',{cache:'no-store'}));
+        const buf=await r.arrayBuffer();
+        if(done) break;
+        totalBytes+=buf.byteLength;
+        const elapsed=(performance.now()-t0)/1000;
+        const mbps=(totalBytes*8)/(elapsed*1e6);
+        onProgress(Math.min(elapsed/DURATION_MS*100,99),mbps);
+      }catch(e){await new Promise(r=>setTimeout(r,100));}
+    }
+  };
+  await Promise.all([run(),run(),run(),run()]);
+  const elapsed=(performance.now()-t0)/1000;
+  return (totalBytes*8)/(elapsed*1e6);
+}
+async function runUploadTest(onProgress) {
+  const DURATION_MS=8000;
+  let totalBytes=0;
+  const t0=performance.now();
+  let done=false;
+  setTimeout(()=>{done=true;},DURATION_MS);
+  const CHUNK=512*1024;
+  const data=new Uint8Array(CHUNK);
+  crypto.getRandomValues(data);
+  const blob=new Blob([data]);
+  const run=async()=>{
+    while(!done){
+      try{
+        await fetch('https://speed.cloudflare.com/__up',{method:'POST',body:blob}).catch(()=>
+          fetch(API+'/status',{method:'POST',body:blob,headers:{'Content-Type':'application/octet-stream'}}).catch(()=>({ok:false}))
+        );
+        if(done) break;
+        totalBytes+=CHUNK;
+        const elapsed=(performance.now()-t0)/1000;
+        const mbps=(totalBytes*8)/(elapsed*1e6);
+        onProgress(Math.min(elapsed/DURATION_MS*100,99),mbps);
+      }catch(e){await new Promise(r=>setTimeout(r,100));}
+    }
+  };
+  await Promise.all([run(),run(),run()]);
+  const elapsed=(performance.now()-t0)/1000;
+  return (totalBytes*8)/(elapsed*1e6);
+}
+
+// sw() เพิ่ม speed tab support
+
+loadDash();
+loadServices();
+setInterval(loadDash, 30000);
+</script>
+
+<!-- SSH RENEW MODAL -->
+<div class="mover" id="ssh-renew-modal" onclick="if(event.target===this)closeSSHRenewModal()">
+  <div class="modal">
+    <div class="mhdr">
+      <div class="mtitle">🔄 ต่ออายุ SSH User</div>
+      <button class="mclose" onclick="closeSSHRenewModal()">✕</button>
+    </div>
+    <div class="dgrid">
+      <div class="dr"><span class="dk">👤 Username</span><span class="dv green" id="ssh-renew-username">--</span></div>
+    </div>
+    <div class="fg" style="margin-top:14px">
+      <div class="flbl">จำนวนวันที่ต้องการต่ออายุ</div>
+      <input class="fi" id="ssh-renew-days" type="number" value="30" min="1" placeholder="30">
+    </div>
+    <button class="cbtn" id="ssh-renew-btn" onclick="doSSHRenew()">✅ ยืนยันต่ออายุ</button>
+  </div>
+</div>
+
+
+<script>
+// Fireflies x60 – inside cards (absolute, ไม่ใช่ fixed)
+(function(){
+  const colors=[
+    '#b5f542','#d4fc5a','#7fff00','#aaff44',
+    '#f5f542','#ffe94d','#ffd700','#ffec6e',
+    '#a8ff78','#78ff8a','#56ffb0','#90ff6a',
+  ];
+  function addFF(container, count) {
+    const w=container.offsetWidth||280;
+    const h=container.offsetHeight||120;
+    for (let i=0;i<count;i++) {
+      const el=document.createElement('div');
+      el.className='card-ff';
+      const size=Math.random()*3+1.5;
+      const color=colors[Math.floor(Math.random()*colors.length)];
+      const r=()=>((Math.random()-0.5)*Math.min(w,h)*0.55)+'px';
+      const dDur=(Math.random()*18+12).toFixed(1);
+      const bDur=(Math.random()*3+2).toFixed(1);
+      const delay=(Math.random()*15).toFixed(2);
+      el.style.cssText=`width:${size}px;height:${size}px;`+
+        `left:${Math.random()*88+6}%;top:${Math.random()*88+6}%;`+
+        `background:${color};`+
+        `box-shadow:0 0 ${size*2.5}px ${size*1.5}px ${color}88,0 0 ${size*6}px ${color}44;`+
+        `animation-duration:${dDur}s,${bDur}s;`+
+        `animation-delay:-${delay}s,-${delay}s;`+
+        `--dx1:${r()};--dy1:${r()};--dx2:${r()};--dy2:${r()};`+
+        `--dx3:${r()};--dy3:${r()};--dx4:${r()};--dy4:${r()};`;
+      container.appendChild(el);
+    }
+  }
+  function spawnAll(){
+    document.querySelectorAll('.card,.sc').forEach(c=>{
+      if (c.querySelectorAll('.card-ff').length<8) addFF(c,10);
+    });
+  }
+  spawnAll();
+  setTimeout(spawnAll,2500);
+  setTimeout(spawnAll,6000);
+})();
+</script>
+</body>
+</html>

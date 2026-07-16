@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHAIYA PROJECT — V2RAY & SSH ALL-IN-ONE PRO</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Sarabun:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --neon-blue: #00d4ff;
+    --neon-purple: #7b2fff;
+    --neon-cyan: #00fff7;
+    --deep-bg: #04020f;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Sarabun', sans-serif;
+    background: var(--deep-bg);
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+
+  /* GPU-only background grid */
+  .grid-bg {
+    position: fixed; inset: 0; z-index: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.045) 1px, transparent 1px);
+    background-size: 48px 48px;
+    transform: perspective(500px) rotateX(28deg) scale(2.2) translateZ(0);
+    transform-origin: center bottom;
+    animation: gridScroll 16s linear infinite;
+  }
+  @keyframes gridScroll {
+    from { background-position: 0 0; }
+    to   { background-position: 0 48px; }
+  }
+
+  .space-glow {
+    position: fixed; inset: 0; z-index: 0;
+    background: radial-gradient(ellipse 70% 55% at 50% 38%,
+      rgba(123,47,255,0.2) 0%, rgba(0,212,255,0.07) 45%, transparent 70%);
+  }
+
+  #ffCanvas {
+    position: fixed; inset: 0; z-index: 1;
+    pointer-events: none;
+    width: 100%; height: 100%;
+  }
+
+  /* ── SCENE ─────────────────────────────── */
+  .scene {
+    position: relative; z-index: 10;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 18px;
+    width: 100%; max-width: 410px;
+    padding: 20px;
+    animation: sceneIn 0.9s cubic-bezier(0.16,1,0.3,1) both;
+  }
+  @keyframes sceneIn {
+    from { opacity:0; transform: translateY(30px) translateZ(0); }
+    to   { opacity:1; transform: translateY(0) translateZ(0); }
+  }
+
+  /* ── ORB ───────────────────────────────── */
+  .logo-wrap { display:flex; flex-direction:column; align-items:center; gap:8px; }
+
+  .logo-orb {
+    position: relative; width: 108px; height: 108px;
+    will-change: transform;
+    animation: orbFloat 5s ease-in-out infinite;
+  }
+  @keyframes orbFloat {
+    0%,100% { transform: translateY(0) translateZ(0); }
+    50%     { transform: translateY(-9px) translateZ(0); }
+  }
+
+  .orb-ring {
+    position: absolute; inset: 0; border-radius: 50%;
+    border: 2px solid transparent; will-change: transform;
+    animation: spin 4s linear infinite;
+  }
+  .orb-ring-1 { border-top-color:#00d4ff; border-right-color:#00d4ff; animation-duration:4s; }
+  .orb-ring-2 { inset:9px; border-bottom-color:#7b2fff; border-left-color:#7b2fff; animation-duration:6.5s; animation-direction:reverse; }
+  .orb-ring-3 { inset:19px; border-top-color:#00fff7; animation-duration:3.2s; }
+  @keyframes spin { to { transform: rotate(360deg) translateZ(0); } }
+
+  .orb-core {
+    position: absolute; inset: 26px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 32%,
+      rgba(0,212,255,0.55) 0%, rgba(123,47,255,0.65) 52%, rgba(4,2,15,0.92) 100%);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pulse-svg { width: 30px; height: 18px; }
+
+  /* ── BRAND ─────────────────────────────── */
+  .brand-name {
+    font-family: 'Orbitron', monospace; font-weight: 900; font-size: 2.15rem;
+    letter-spacing: 0.24em;
+    background: linear-gradient(135deg, #fff 0%, #00fff7 38%, #00d4ff 68%, #7b2fff 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 10px rgba(0,212,255,0.65));
+  }
+  .brand-sub {
+    font-family: 'Orbitron', monospace; font-size: 0.62rem;
+    letter-spacing: 0.58em; color: rgba(0,212,255,0.68); margin-top:-4px;
+  }
+  .badge {
+    margin-top: 5px; padding: 5px 16px;
+    font-family: 'Orbitron', monospace; font-size: 0.58rem; letter-spacing: 0.28em;
+    color: var(--neon-cyan);
+    border: 1px solid rgba(0,212,255,0.38); border-radius: 20px;
+    background: rgba(0,212,255,0.05);
+  }
+
+  /* ── CARD ──────────────────────────────── */
+  .card {
+    width: 100%;
+    background: rgba(8,4,24,0.82);
+    border: 1px solid rgba(123,47,255,0.32);
+    border-radius: 20px;
+    padding: 30px 26px 26px;
+    position: relative;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow:
+      0 20px 50px rgba(0,0,0,0.72),
+      0 0 60px rgba(123,47,255,0.1),
+      inset 0 1px 0 rgba(255,255,255,0.055);
+    will-change: transform;
+    transition: transform 0.05s linear;
+  }
+  .card::before, .card::after {
+    content:''; position:absolute; width:38px; height:38px;
+  }
+  .card::before {
+    top:-1px; left:-1px;
+    border-top: 2px solid #7b2fff; border-left: 2px solid #7b2fff;
+    border-radius: 18px 0 0 0;
+  }
+  .card::after {
+    bottom:-1px; right:-1px;
+    border-bottom: 2px solid #00d4ff; border-right: 2px solid #00d4ff;
+    border-radius: 0 0 18px 0;
+  }
+
+  /* ── SECTION TITLE ─────────────────────── */
+  .section-title { display:flex; align-items:center; gap:10px; margin-bottom:22px; }
+  .title-bar { width:3px; height:20px; background: linear-gradient(to bottom,#7b2fff,#00d4ff); border-radius:2px; }
+  .title-text { font-size:1.02rem; font-weight:600; color:rgba(255,255,255,0.88); }
+
+  /* ── FIELDS ────────────────────────────── */
+  .field-group { margin-bottom:16px; }
+  .field-label { display:block; font-size:0.8rem; color:rgba(190,205,255,0.65); margin-bottom:7px; }
+  .field-wrap { position:relative; }
+  .field-icon { position:absolute; left:13px; top:50%; transform:translateY(-50%); font-size:0.95rem; opacity:0.55; pointer-events:none; z-index:1; }
+  .field-input {
+    width:100%; background: rgba(0,0,0,0.42);
+    border: 1px solid rgba(123,47,255,0.22); border-radius:11px;
+    padding: 13px 13px 13px 40px;
+    font-family:'Sarabun',sans-serif; font-size:0.9rem;
+    color:rgba(255,255,255,0.84); outline:none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .field-input::placeholder { color:rgba(140,155,200,0.38); }
+  .field-input:focus { border-color:rgba(0,212,255,0.55); background:rgba(0,18,36,0.58); }
+
+  .eye-btn {
+    position:absolute; right:12px; top:50%; transform:translateY(-50%);
+    background:none; border:none; color:rgba(140,165,220,0.48);
+    cursor:pointer; font-size:0.95rem; padding:4px; z-index:2;
+    transition: color 0.18s;
+  }
+  .eye-btn:hover { color:#00fff7; }
+
+  /* ── BUTTONS ───────────────────────────── */
+  .btn {
+    width:100%; padding:14px; border:none; border-radius:11px;
+    font-family:'Sarabun',sans-serif; font-size:0.97rem; font-weight:600;
+    letter-spacing:0.05em; cursor:pointer; position:relative; overflow:hidden;
+    will-change: transform;
+    transition: transform 0.12s, box-shadow 0.12s;
+    margin-bottom:11px;
+  }
+  .btn:last-child { margin-bottom:0; }
+
+  .btn-primary {
+    background: linear-gradient(135deg,rgba(123,47,255,0.92),rgba(60,0,190,0.96),rgba(0,90,210,0.9));
+    color:#fff;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.45), 0 8px 24px rgba(123,47,255,0.45);
+  }
+  .btn-primary:hover { transform:translateY(-2px) translateZ(0); box-shadow:0 6px 0 rgba(0,0,0,0.45),0 14px 32px rgba(123,47,255,0.6); }
+  .btn-primary:active { transform:translateY(1px) translateZ(0); }
+
+  .btn-secondary {
+    background:rgba(0,0,0,0.28); color:rgba(200,220,255,0.78);
+    border:1px solid rgba(0,212,255,0.22);
+    box-shadow:0 4px 0 rgba(0,0,0,0.3);
+  }
+  .btn-secondary:hover { background:rgba(0,212,255,0.07); border-color:rgba(0,212,255,0.48); color:#00fff7; transform:translateY(-1px) translateZ(0); }
+  .btn-secondary:active { transform:translateY(1px) translateZ(0); }
+
+  .btn::after {
+    content:''; position:absolute; top:0; left:-110%; width:55%; height:100%;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,0.11),transparent);
+    transform:skewX(-18deg) translateZ(0); transition:left 0.42s;
+  }
+  .btn:hover::after { left:160%; }
+
+  /* ── TICKER ────────────────────────────── */
+  .ticker-wrap { width:100%; overflow:hidden; opacity:0.4; position:relative; }
+  .ticker-wrap::before,.ticker-wrap::after { content:''; position:absolute; top:0; bottom:0; width:28px; z-index:2; }
+  .ticker-wrap::before { left:0; background:linear-gradient(90deg,#04020f,transparent); }
+  .ticker-wrap::after  { right:0; background:linear-gradient(-90deg,#04020f,transparent); }
+  .ticker-track {
+    white-space:nowrap; display:inline-block;
+    font-family:'Orbitron',monospace; font-size:0.48rem; letter-spacing:0.3em;
+    color:rgba(0,212,255,0.82); will-change:transform;
+    animation:ticker 22s linear infinite;
+  }
+  @keyframes ticker { from{transform:translateX(0) translateZ(0)} to{transform:translateX(-50%) translateZ(0)} }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+<div class="space-glow"></div>
+<canvas id="ffCanvas"></canvas>
+
+<div class="scene">
+
+  <div class="logo-wrap">
+    <div class="logo-orb">
+      <div class="orb-ring orb-ring-1"></div>
+      <div class="orb-ring orb-ring-2"></div>
+      <div class="orb-ring orb-ring-3"></div>
+      <div class="orb-core">
+        <svg class="pulse-svg" viewBox="0 0 50 28" fill="none">
+          <polyline points="0,14 8,14 12,4 17,24 22,10 27,18 32,6 37,22 42,14 50,14"
+            stroke="#00d4ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+    <div class="brand-name">CHAIYA</div>
+    <div class="brand-sub">P R O J E C T</div>
+    <div class="badge">V2RAY &amp; SSH &nbsp;·&nbsp; ALL-IN-ONE PRO</div>
+  </div>
+
+  <div class="card" id="card">
+    <div class="section-title">
+      <div class="title-bar"></div>
+      <span class="title-text">เข้าสู่ระบบ</span>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">ชื่อผู้ใช้งาน</label>
+      <div class="field-wrap">
+        <span class="field-icon">👤</span>
+        <input class="field-input" id="usernameInput" type="text" placeholder="กรอกชื่อผู้ใช้งาน" autocomplete="username">
+      </div>
+    </div>
+
+    <div class="field-group" style="margin-bottom:22px">
+      <label class="field-label">รหัสผ่าน</label>
+      <div class="field-wrap">
+        <span class="field-icon">🔒</span>
+        <input class="field-input" type="password" id="passInput" placeholder="กรอกรหัสผ่าน" autocomplete="current-password">
+        <button class="eye-btn" onclick="togglePass()" tabindex="-1">👁</button>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" id="loginBtn" onclick="doLogin()">🔓&nbsp; เข้าสู่ระบบ</button>
+    <button class="btn btn-secondary" onclick="showChangeModal()">🔑&nbsp; ตั้งชื่อผู้ใช้ / รหัสผ่านใหม่</button>
+  </div>
+
+  <div class="ticker-wrap">
+    <div class="ticker-track" id="ticker"></div>
+  </div>
+
+</div>
+
+<script>
+/* ── TICKER ──────────────────────────────────────── */
+const msg = 'CHAIYA-PROJECT\u2003·\u2003V2RAY & SSH ALL-IN-ONE PRO\u2003·\u2003SECURE\u2003·\u2003STABLE\u2003·\u2003FAST\u2003·\u2003';
+document.getElementById('ticker').textContent = msg.repeat(5);
+
+/* ── PASSWORD ────────────────────────────────────── */
+function togglePass() {
+  const f = document.getElementById('passInput');
+  f.type = f.type === 'password' ? 'text' : 'password';
+}
+
+/* ── CARD TILT — lerped, rAF-driven ─────────────── */
+const card = document.getElementById('card');
+let mx = window.innerWidth/2, my = window.innerHeight/2;
+let tx = 0, ty = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; }, {passive:true});
+(function tilt() {
+  const r = card.getBoundingClientRect();
+  const dx = (mx - (r.left + r.width/2))  / (r.width/2);
+  const dy = (my - (r.top  + r.height/2)) / (r.height/2);
+  tx += (dx - tx) * 0.07;
+  ty += (dy - ty) * 0.07;
+  card.style.transform = `perspective(900px) rotateX(${(-ty*4.5).toFixed(3)}deg) rotateY(${(tx*4.5).toFixed(3)}deg) translateZ(0)`;
+  requestAnimationFrame(tilt);
+})();
+
+/* ── FIREFLIES — Canvas 2D, rAF loop ────────────── */
+const canvas = document.getElementById('ffCanvas');
+const ctx = canvas.getContext('2d');
+
+function resize() { canvas.width = innerWidth; canvas.height = innerHeight; }
+resize();
+window.addEventListener('resize', resize, {passive:true});
+
+const COLORS = ['#00ff88','#aaffc8','#00d4ff','#80ffbb','#00fff7','#c8ffdb'];
+const N = 16;
+
+const flies = Array.from({length:N}, () => ({
+  x:  Math.random() * innerWidth,
+  y:  Math.random() * innerHeight,
+  vx: (Math.random()-.5) * 0.5,
+  vy: (Math.random()-.5) * 0.5,
+  r:  Math.random() * 1.4 + 1.1,
+  hex: COLORS[Math.floor(Math.random()*COLORS.length)],
+  phase: Math.random() * Math.PI * 2,
+  pspd:  Math.random() * 0.016 + 0.01,
+  wx: Math.random() * innerWidth,
+  wy: Math.random() * innerHeight,
+  wt: ~~(Math.random()*280+100), wc:0,
+}));
+
+// preparse rgb once
+const rgb = flies.map(f => {
+  const h = f.hex.slice(1);
+  return [parseInt(h,16)>>16, (parseInt(h,16)>>8)&0xff, parseInt(h,16)&0xff];
+});
+
+let prev = 0;
+function frame(ts) {
+  const dt = Math.min(ts - prev, 30); prev = ts;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  for (let i = 0; i < N; i++) {
+    const f = flies[i];
+    const [r,g,b] = rgb[i];
+
+    // wander
+    if (++f.wc > f.wt) {
+      f.wx = Math.random()*canvas.width; f.wy = Math.random()*canvas.height;
+      f.wt = ~~(Math.random()*280+100); f.wc = 0;
+    }
+    f.vx = f.vx*.97 + (f.wx-f.x)*.0025;
+    f.vy = f.vy*.97 + (f.wy-f.y)*.0025;
+    const spd = Math.hypot(f.vx,f.vy);
+    if (spd > 0.75) { f.vx=f.vx/spd*.75; f.vy=f.vy/spd*.75; }
+
+    f.x += f.vx*(dt*.06); f.y += f.vy*(dt*.06);
+    if (f.x<-8) f.x=canvas.width+8; else if(f.x>canvas.width+8) f.x=-8;
+    if (f.y<-8) f.y=canvas.height+8; else if(f.y>canvas.height+8) f.y=-8;
+
+    f.phase += f.pspd;
+    const bright = .38 + .52*(Math.sin(f.phase)*.5+.5);
+    const gR = f.r * (3 + 2.2*(Math.sin(f.phase*.68)*.5+.5));
+
+    // radial glow
+    const grad = ctx.createRadialGradient(f.x,f.y,0,f.x,f.y,gR*3.5);
+    grad.addColorStop(0,   `rgba(${r},${g},${b},${(bright*.85).toFixed(2)})`);
+    grad.addColorStop(.35, `rgba(${r},${g},${b},${(bright*.3).toFixed(2)})`);
+    grad.addColorStop(1,   `rgba(${r},${g},${b},0)`);
+    ctx.beginPath(); ctx.arc(f.x,f.y,gR*3.5,0,6.2832);
+    ctx.fillStyle = grad; ctx.fill();
+
+    // core
+    ctx.beginPath(); ctx.arc(f.x,f.y,f.r,0,6.2832);
+    ctx.fillStyle = `rgba(${r},${g},${b},${bright.toFixed(2)})`;
+    ctx.fill();
+  }
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+/* ── LOGIN ── */
+const SESSION_KEY = 'chaiya_auth';
+async function doLogin() {
+  const user = document.getElementById('usernameInput').value.trim();
+  const pass = document.getElementById('passInput').value.trim();
+  const btn  = document.getElementById('loginBtn');
+  if (!user || !pass) { alert('\u0e01\u0e23\u0e38\u0e13\u0e32\u0e01\u0e23\u0e2d\u0e01 Username \u0e41\u0e25\u0e30 Password'); return; }
+  btn.disabled = true;
+  btn.innerHTML = '\u23f3 \u0e01\u0e33\u0e25\u0e31\u0e07\u0e40\u0e02\u0e49\u0e32\u0e2a\u0e39\u0e48\u0e23\u0e30\u0e1a\u0e1a...';
+  try {
+    const r = await fetch('/api/login', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({username:user, password:pass})
+    });
+    const d = await r.json();
+    if (d.ok || d.success) {
+      const exp = Date.now() + 8 * 3600 * 1000;
+      sessionStorage.setItem(SESSION_KEY, JSON.stringify({user, pass, exp}));
+      location.replace('sshws.html');
+    } else {
+      alert('Username \u0e2b\u0e23\u0e37\u0e2d Password \u0e44\u0e21\u0e48\u0e16\u0e39\u0e01\u0e15\u0e49\u0e2d\u0e07');
+      btn.disabled = false;
+      btn.innerHTML = '\ud83d\udd13&nbsp; \u0e40\u0e02\u0e49\u0e32\u0e2a\u0e39\u0e48\u0e23\u0e30\u0e1a\u0e1a';
+    }
+  } catch(e) {
+    alert('\u0e40\u0e0a\u0e37\u0e48\u0e2d\u0e21\u0e15\u0e48\u0e2d API \u0e44\u0e21\u0e48\u0e44\u0e14\u0e49: ' + e.message);
+    btn.disabled = false;
+    btn.innerHTML = '\ud83d\udd13&nbsp; \u0e40\u0e02\u0e49\u0e32\u0e2a\u0e39\u0e48\u0e23\u0e30\u0e1a\u0e1a';
+  }
+}
+document.addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+
+/* ── CHANGE ADMIN ── */
+function showChangeModal() {
+  document.getElementById('changeModal').style.display = 'flex';
+  document.getElementById('changeAlert').style.display = 'none';
+  document.getElementById('oldPass').value = '';
+  document.getElementById('newUser').value = '';
+  document.getElementById('newPass').value = '';
+}
+function hideChangeModal() {
+  document.getElementById('changeModal').style.display = 'none';
+}
+async function doChangeAdmin() {
+  const oldPass = document.getElementById('oldPass').value.trim();
+  const newUser = document.getElementById('newUser').value.trim();
+  const newPass = document.getElementById('newPass').value.trim();
+  const alertEl = document.getElementById('changeAlert');
+  const btn = document.getElementById('confirmChangeBtn');
+  if (!oldPass || !newUser || !newPass) {
+    alertEl.style.cssText = 'display:block;padding:10px 14px;border-radius:8px;font-size:12px;margin-bottom:14px;background:#fef2f2;border:1px solid #fca5a5;color:#dc2626;';
+    alertEl.textContent = '❌ กรุณากรอกข้อมูลให้ครบทุกช่อง';
+    return;
+  }
+  btn.disabled = true;
+  btn.textContent = '⏳ กำลังบันทึก...';
+  try {
+    const r = await fetch('/api/change_admin', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({old_pass:oldPass, new_user:newUser, new_pass:newPass})
+    });
+    const d = await r.json();
+    if (d.ok) {
+      alertEl.style.cssText = 'display:block;padding:10px 14px;border-radius:8px;font-size:12px;margin-bottom:14px;background:#f0fdf4;border:1px solid #86efac;color:#15803d;';
+      alertEl.textContent = '✅ เปลี่ยน Username/Password สำเร็จ! กรุณา Login ใหม่';
+      btn.textContent = '✅ ยืนยัน';
+      btn.disabled = false;
+      setTimeout(() => { hideChangeModal(); }, 2500);
+    } else {
+      alertEl.style.cssText = 'display:block;padding:10px 14px;border-radius:8px;font-size:12px;margin-bottom:14px;background:#fef2f2;border:1px solid #fca5a5;color:#dc2626;';
+      alertEl.textContent = '❌ ' + (d.error || 'เกิดข้อผิดพลาด');
+      btn.textContent = '✅ ยืนยัน';
+      btn.disabled = false;
+    }
+  } catch(e) {
+    alertEl.style.cssText = 'display:block;padding:10px 14px;border-radius:8px;font-size:12px;margin-bottom:14px;background:#fef2f2;border:1px solid #fca5a5;color:#dc2626;';
+    alertEl.textContent = '❌ เชื่อมต่อ API ไม่ได้: ' + e.message;
+    btn.textContent = '✅ ยืนยัน';
+    btn.disabled = false;
+  }
+}
+</script>
+
+<!-- CHANGE CREDENTIALS MODAL -->
+<div id="changeModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);z-index:999;align-items:center;justify-content:center;">
+  <div style="background:rgba(8,4,24,.95);border:1px solid rgba(123,47,255,.4);border-radius:20px;padding:28px 24px;width:100%;max-width:360px;margin:20px;position:relative;">
+    <div style="font-family:'Orbitron',monospace;font-size:.85rem;color:rgba(0,212,255,.8);margin-bottom:20px;letter-spacing:2px;">🔑 เปลี่ยน Username / Password</div>
+    <div id="changeAlert" style="display:none;padding:10px 14px;border-radius:8px;font-size:12px;margin-bottom:14px;"></div>
+    <div style="margin-bottom:12px;">
+      <div style="font-size:.75rem;color:rgba(190,205,255,.6);margin-bottom:6px;">Password เดิม</div>
+      <input id="oldPass" type="password" placeholder="รหัสผ่านปัจจุบัน" style="width:100%;background:rgba(0,0,0,.42);border:1px solid rgba(123,47,255,.22);border-radius:11px;padding:11px 14px;font-size:.88rem;color:rgba(255,255,255,.84);outline:none;font-family:'Sarabun',sans-serif;">
+    </div>
+    <div style="margin-bottom:12px;">
+      <div style="font-size:.75rem;color:rgba(190,205,255,.6);margin-bottom:6px;">Username ใหม่</div>
+      <input id="newUser" type="text" placeholder="username ใหม่" style="width:100%;background:rgba(0,0,0,.42);border:1px solid rgba(123,47,255,.22);border-radius:11px;padding:11px 14px;font-size:.88rem;color:rgba(255,255,255,.84);outline:none;font-family:'Sarabun',sans-serif;">
+    </div>
+    <div style="margin-bottom:20px;">
+      <div style="font-size:.75rem;color:rgba(190,205,255,.6);margin-bottom:6px;">Password ใหม่</div>
+      <input id="newPass" type="password" placeholder="รหัสผ่านใหม่" style="width:100%;background:rgba(0,0,0,.42);border:1px solid rgba(123,47,255,.22);border-radius:11px;padding:11px 14px;font-size:.88rem;color:rgba(255,255,255,.84);outline:none;font-family:'Sarabun',sans-serif;">
+    </div>
+    <div style="display:flex;gap:10px;">
+      <button id="confirmChangeBtn" onclick="doChangeAdmin()" style="flex:1;padding:12px;border:none;border-radius:11px;background:linear-gradient(135deg,rgba(123,47,255,.9),rgba(0,90,210,.9));color:#fff;font-family:'Sarabun',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;">✅ ยืนยัน</button>
+      <button onclick="hideChangeModal()" style="flex:1;padding:12px;border:1px solid rgba(123,47,255,.3);border-radius:11px;background:rgba(0,0,0,.3);color:rgba(200,220,255,.7);font-family:'Sarabun',sans-serif;font-size:.9rem;cursor:pointer;">ยกเลิก</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>
